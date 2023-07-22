@@ -1,0 +1,69 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Pavel Radkevich" id="1689874849112-1">
+        <createTable tableName="senders">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="senders_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Pavel Radkevich" id="1689874849112-2">
+        <addUniqueConstraint columnNames="email" constraintName="email_uk" tableName="senders"/>
+    </changeSet>
+    <changeSet author="Pavel Radkevich" id="1689874849112-3">
+        <addUniqueConstraint columnNames="phone" constraintName="phone_uk" tableName="senders"/>
+    </changeSet>
+    <changeSet author="Pavel Radkevich" id="1689874849112-4">
+        <createTable tableName="orders">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="orders_pkey"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sender_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_item_type" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_item_class" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="numeric(9, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Pavel Radkevich" id="1689874849112-5">
+        <createTable tableName="postal_item_types">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="postal_item_types_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="basic_rate" type="numeric(8, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Pavel Radkevich" id="1689874849112-6">
+        <addForeignKeyConstraint baseColumnNames="postal_item_type" baseTableName="orders" constraintName="order_postal_tem_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="postal_item_types" validate="true"/>
+    </changeSet>
+    <changeSet author="Pavel Radkevich" id="1689874849112-7">
+        <addForeignKeyConstraint baseColumnNames="sender_id" baseTableName="orders" constraintName="order_sender_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="senders" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
