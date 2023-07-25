@@ -1,0 +1,111 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="HP (generate)" id="1690124393309-1">
+        <createTable tableName="clients">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="clients_pkey"/>
+            </column>
+            <column name="first_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_number" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accidents" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-2">
+        <createTable tableName="parkings">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="parkings_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-3">
+        <addUniqueConstraint columnNames="document_number" constraintName="document_number_unique" tableName="clients"/>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-4">
+        <addUniqueConstraint columnNames="name" constraintName="name_unique" tableName="parkings"/>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-5">
+        <addUniqueConstraint columnNames="phone" constraintName="phone_unique" tableName="parkings"/>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-6">
+        <createTable tableName="cars">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="cars_pkey"/>
+            </column>
+            <column name="brand" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="class" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fuel" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_per_da" type="numeric(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parking_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-7">
+        <createTable tableName="contracts">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="contracts_pkey"/>
+            </column>
+            <column name="client_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="numeric">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-8">
+        <addForeignKeyConstraint baseColumnNames="parking_id" baseTableName="cars"
+                                 constraintName="cars_id_parkings_id_parkings_fk" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="parkings" validate="true"/>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-9">
+        <addForeignKeyConstraint baseColumnNames="car_id" baseTableName="contracts" constraintName="contracts_cars_fk"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="cars" validate="true"/>
+    </changeSet>
+    <changeSet author="HP (generate)" id="1690124393309-10">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="contracts"
+                                 constraintName="contracts_clients_fk" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="clients" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

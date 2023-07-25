@@ -1,0 +1,10 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <include file="changelog/001-initial_db_setup.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/002-insert_parkings_test_data.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/003-insert_cars_test_data.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/004-insert_clients_test_data.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/005-insert_contracts_test_data.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>
