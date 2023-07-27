@@ -1,20 +1,21 @@
 package pl.maks.carrental.controller.productDTO;
 
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ClientDTO implements Serializable{
+public class ClientDTO implements Serializable {
 
     private Integer id;
-
+    @Pattern(regexp = "^[a-zA-Z]*$")
     private String firstName;
-
+    @Pattern(regexp = "^[a-zA-Z]*$")
     private String lastName;
-
+    @NotBlank
     private String documentNumber;
-
+    @NotBlank
     private Integer accidents;
 
     public Integer getId() {

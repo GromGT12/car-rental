@@ -1,10 +1,8 @@
 package pl.maks.carrental.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.service.ClientService;
 
@@ -28,5 +26,15 @@ public class ClientController {
     @GetMapping
     public List<ClientDTO> getAll() {
         return clientService.getAllClients();
+    }
+
+    @PostMapping
+    public Integer CreateClient(@RequestBody @Valid ClientDTO userToCreate) {
+        return clientService.createClient(userToCreate);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        clientService.deleteById(id);
     }
 }

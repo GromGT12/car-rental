@@ -7,6 +7,7 @@ import pl.maks.carrental.convertor.ClientConverter;
 import pl.maks.carrental.exception.CarRentalNotFoundException;
 import pl.maks.carrental.repository.SpringDataClientsRepository;
 import pl.maks.carrental.repository.model.Client;
+import pl.maks.carrental.validator.ClientValidator;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,13 +17,15 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
     private final SpringDataClientsRepository clientsRepository;
     private final ClientConverter clientConverter;
+    private final ClientValidator clientValidator;
 
 
-    public ClientServiceImpl(SpringDataClientsRepository clientsRepository, ClientConverter clientConverter) {
+    public ClientServiceImpl(SpringDataClientsRepository clientsRepository, ClientConverter clientConverter, ClientValidator clientValidator) {
         this.clientsRepository = clientsRepository;
-
         this.clientConverter = clientConverter;
+        this.clientValidator = clientValidator;
     }
+
     @Override
     public List<ClientDTO> getAllClients() {
         Collection<Client> all = clientsRepository.findAll();
@@ -37,12 +40,17 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Integer createClient(ClientDTO clientDTO) {
-        return null;
+    public Integer createClient(ClientDTO clientToCreate) {
+        clientValidator.validateClient(clientToCreate);
+        Client client = clientConverter.convertToEntity(clientToCreate);
+        Client saveClient = clientsRepository.save(client);
+        return saveClient.getId();
     }
 
     @Override
     public void deleteById(Integer id) {
+        Client client = clientsRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
+        clientsRepository.deleteById(id);
 
     }
 }
