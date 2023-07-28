@@ -29,8 +29,8 @@ public class ClientController {
     }
 
     @PostMapping
-    public Integer CreateClient(@RequestBody @Valid ClientDTO userToCreate) {
-        return clientService.createClient(userToCreate);
+    public Integer CreateClient(@RequestBody @Valid ClientDTO clientToCreate) {
+        return clientService.createClient(clientToCreate);
     }
 
     @DeleteMapping("/{id}")
