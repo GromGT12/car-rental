@@ -26,12 +26,11 @@ public class ParkingConverter {
                 .collect(Collectors.toList());
     }
 
-    private ParkingDTO convertParkingToDto(Parking source) {
+    public ParkingDTO convertParkingToDto(Parking source) {
         ParkingDTO result = new ParkingDTO();
         result.setId(source.getId());
         result.setName(source.getName());
         result.setPhone(source.getPhone());
-
         return result;
     }
 }

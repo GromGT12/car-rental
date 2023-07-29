@@ -50,8 +50,18 @@ public class ParkingServiceImp implements ParkingService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
         Parking parking = parkingsRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Parking not found" + id));
-        parkingsRepository.deleteById(id);
+        parkingsRepository.delete(parking);
+    }
+
+    @Override
+    public ParkingDTO updateParking(Integer id, ParkingDTO parkingToUpdate) {
+        Parking parking = parkingsRepository.findById(id).orElseThrow(()-> new CarRentalNotFoundException("Parking not found"+id));
+        Parking entityToUpdate = parkingConverter.convertToEntity(parkingToUpdate);
+        entityToUpdate.setId(id);
+        Parking updateEntity = parkingsRepository.save(entityToUpdate);
+        return parkingConverter.convertToDto(updateEntity);
     }
 }

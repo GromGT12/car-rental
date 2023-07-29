@@ -2,6 +2,7 @@ package pl.maks.carrental.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.controller.productDTO.ParkingDTO;
 import pl.maks.carrental.service.ParkingService;
 
@@ -28,12 +29,17 @@ public class ParkingController {
     }
 
     @PostMapping
-    public Integer CreateParking(@RequestBody @Valid ParkingDTO perkingToCreate) {
-        return parkingService.createParking(perkingToCreate);
+    public Integer createParking(@RequestBody @Valid ParkingDTO parkingToCreate) {
+        return parkingService.createParking(parkingToCreate);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         parkingService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ParkingDTO update(@PathVariable Integer id, @RequestBody @Valid ParkingDTO parkingToUpdate) {
+        return parkingService.updateParking(id, parkingToUpdate);
     }
 }

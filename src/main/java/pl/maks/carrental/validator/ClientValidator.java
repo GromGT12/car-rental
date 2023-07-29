@@ -13,7 +13,7 @@ public class ClientValidator {
 
     public void validateClient(ClientDTO clientDTO) {
         validateName(clientDTO.getFirstName());
-        validateSurname(clientDTO.getLastName());
+        validateName(clientDTO.getLastName());
         validateDocumentNumber(clientDTO.getDocumentNumber());
     }
 
@@ -22,13 +22,6 @@ public class ClientValidator {
             throw new ValidationException("Invalid name format. Only letters, spaces, hyphens, and apostrophes are allowed.");
         }
     }
-
-    private void validateSurname(String surname) {
-        if (!Pattern.matches(NAME_REGEX, surname)) {
-            throw new ValidationException("Invalid surname format. Only letters, spaces, hyphens, and apostrophes are allowed.");
-        }
-    }
-
     private void validateDocumentNumber(String documentNumber) {
         if (!Pattern.matches(DOCUMENT_NUMBER_REGEX, documentNumber)) {
             throw new ValidationException("Invalid document number format. It should contain 10 characters, including letters and numbers.");

@@ -48,9 +48,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
         Client client = clientsRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
-        clientsRepository.deleteById(id);
+        clientsRepository.delete(client);
 
+    }
+
+    @Override
+    @Transactional
+    public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
+        Client client = clientsRepository.findById(id).orElseThrow(()-> new CarRentalNotFoundException("Client not found"+ id));
+        Client entityToUpdate = clientConverter.convertToEntity(clientToUpdate);
+        entityToUpdate.setId(id);
+        Client updateEntity = clientsRepository.save(entityToUpdate);
+        return clientConverter.convertToDto(updateEntity);
     }
 }
