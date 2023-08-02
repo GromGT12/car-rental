@@ -2,8 +2,6 @@ package pl.maks.carrental.repository.model;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-
 @Entity
 @Table(name = "parkings")
 public class Parking {
@@ -53,26 +51,5 @@ public class Parking {
         this.phone = phone;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Parking parking = (Parking) o;
-        return Objects.equals(id, parking.id) && Objects.equals(name, parking.name) && Objects.equals(phone, parking.phone);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, phone);
-    }
-
-    @Override
-    public String toString() {
-        return "Parking{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
-    }
 }
 

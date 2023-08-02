@@ -2,7 +2,7 @@ package pl.maks.carrental.repository.model;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cars")
@@ -15,35 +15,14 @@ public class Car {
     @Column(name = "model")
     private String model;
     @Column(name = "class")
-    private String classCar;
+    private String carClass;
     @Column(name = "fuel")
     private String fuel;
-    @Column(name = "price_per_da")
-    private Double pricePerDay;
-    @Column(name = "parking_id")
-    private Integer parkingId;
-
-    public Car() {
-    }
-
-    public Car(String brand, String model, String classCar, String fuel, Double pricePerDay, Integer parkingId) {
-        this.brand = brand;
-        this.model = model;
-        this.classCar = classCar;
-        this.fuel = fuel;
-        this.pricePerDay = pricePerDay;
-        this.parkingId = parkingId;
-    }
-
-    public Car(Integer id, String brand, String model, String classCar, String fuel, Double pricePerDay, Integer parkingId) {
-        this.id = id;
-        this.brand = brand;
-        this.model = model;
-        this.classCar = classCar;
-        this.fuel = fuel;
-        this.pricePerDay = pricePerDay;
-        this.parkingId = parkingId;
-    }
+    @Column(name = "price_per_day")
+    private BigDecimal pricePerDay;
+    @ManyToOne
+    @JoinColumn(name = "parking_id")
+    private Parking parking;
 
     public Integer getId() {
         return id;
@@ -69,12 +48,12 @@ public class Car {
         this.model = model;
     }
 
-    public String getClassCar() {
-        return classCar;
+    public String getCarClass() {
+        return carClass;
     }
 
-    public void setClassCar(String classCar) {
-        this.classCar = classCar;
+    public void setCarClass(String carClass) {
+        this.carClass = carClass;
     }
 
     public String getFuel() {
@@ -85,45 +64,19 @@ public class Car {
         this.fuel = fuel;
     }
 
-    public Double getPricePerDay() {
+    public BigDecimal getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(Double pricePerDay) {
+    public void setPricePerDay(BigDecimal pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 
-    public Integer getParkingId() {
-        return parkingId;
+    public Parking getParking() {
+        return parking;
     }
 
-    public void setParkingId(Integer parkingId) {
-        this.parkingId = parkingId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car cars = (Car) o;
-        return Objects.equals(id, cars.id) && Objects.equals(brand, cars.brand) && Objects.equals(model, cars.model) && Objects.equals(classCar, cars.classCar) && Objects.equals(fuel, cars.fuel) && Objects.equals(pricePerDay, cars.pricePerDay) && Objects.equals(parkingId, cars.parkingId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, brand, model, classCar, fuel, pricePerDay, parkingId);
-    }
-
-    @Override
-    public String toString() {
-        return "Car{" +
-                "id=" + id +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", classCar='" + classCar + '\'' +
-                ", fuel='" + fuel + '\'' +
-                ", pricePerDay=" + pricePerDay +
-                ", parkingId=" + parkingId +
-                '}';
+    public void setParking(Parking parking) {
+        this.parking = parking;
     }
 }

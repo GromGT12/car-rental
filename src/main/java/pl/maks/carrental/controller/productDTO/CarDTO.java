@@ -1,16 +1,17 @@
 package pl.maks.carrental.controller.productDTO;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
-public class CarDTO implements Serializable{
+public class CarDTO {
+
     private Integer id;
     private String brand;
     private String model;
-    private String classCar;
+    private String carClass;
     private String fuel;
-    private Double pricePerDay;
-    private Integer parkingId;
+    private BigDecimal pricePerDay;
+    private ParkingDTO parking;
 
     public Integer getId() {
         return id;
@@ -36,12 +37,12 @@ public class CarDTO implements Serializable{
         this.model = model;
     }
 
-    public String getClassCar() {
-        return classCar;
+    public String getCarClass() {
+        return carClass;
     }
 
-    public void setClassCar(String classCar) {
-        this.classCar = classCar;
+    public void setCarClass(String carClass) {
+        this.carClass = carClass;
     }
 
     public String getFuel() {
@@ -52,20 +53,20 @@ public class CarDTO implements Serializable{
         this.fuel = fuel;
     }
 
-    public Double getPricePerDay() {
+    public BigDecimal getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(Double pricePerDay) {
+    public void setPricePerDay(BigDecimal pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 
-    public Integer getParkingId() {
-        return parkingId;
+    public ParkingDTO getParking() {
+        return parking;
     }
 
-    public void setParkingId(Integer parkingId) {
-        this.parkingId = parkingId;
+    public void setParking(ParkingDTO parking) {
+        this.parking = parking;
     }
 
     @Override
@@ -73,12 +74,12 @@ public class CarDTO implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarDTO carDTO = (CarDTO) o;
-        return Objects.equals(id, carDTO.id) && Objects.equals(brand, carDTO.brand) && Objects.equals(model, carDTO.model) && Objects.equals(classCar, carDTO.classCar) && Objects.equals(fuel, carDTO.fuel) && Objects.equals(pricePerDay, carDTO.pricePerDay) && Objects.equals(parkingId, carDTO.parkingId);
+        return Objects.equals(id, carDTO.id) && Objects.equals(brand, carDTO.brand) && Objects.equals(model, carDTO.model) && Objects.equals(carClass, carDTO.carClass) && Objects.equals(fuel, carDTO.fuel) && Objects.equals(pricePerDay, carDTO.pricePerDay) && Objects.equals(parking, carDTO.parking);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, brand, model, classCar, fuel, pricePerDay, parkingId);
+        return Objects.hash(id, brand, model, carClass, fuel, pricePerDay, parking);
     }
 
     @Override
@@ -87,10 +88,10 @@ public class CarDTO implements Serializable{
                 "id=" + id +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
-                ", classCar='" + classCar + '\'' +
+                ", carClass='" + carClass + '\'' +
                 ", fuel='" + fuel + '\'' +
                 ", pricePerDay=" + pricePerDay +
-                ", parkingId=" + parkingId +
+                ", parking=" + parking +
                 '}';
     }
 }

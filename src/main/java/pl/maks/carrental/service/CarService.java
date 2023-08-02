@@ -5,7 +5,7 @@ import pl.maks.carrental.controller.productDTO.ClientDTO;
 
 import java.util.List;
 
-public interface CarService {
+public interface CarService{
     List<CarDTO> getAllCars();
 
     CarDTO getById(Integer id);

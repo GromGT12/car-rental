@@ -1,14 +1,13 @@
 package pl.maks.carrental.controller.productDTO;
 
-import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
-public class ParkingDTO{
+public class ParkingDTO {
     private Integer id;
-    @Pattern(regexp = "^[a-zA-Z]*$")
+
     private String name;
-    @Pattern(regexp = "^(?:\\+?\\d{1,4}\\s?)?(?:\\(\\d{1,4}\\)\\s?)?(?:[-.\\s]?\\d{1,5}){1,6}$")
+
     private String phone;
 
     public Integer getId() {

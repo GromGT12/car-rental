@@ -37,6 +37,7 @@ public class ClientController {
     public void delete(@PathVariable Integer id) {
         clientService.deleteById(id);
     }
+
     @PutMapping("/{id}")
     public ClientDTO update(@PathVariable Integer id, @RequestBody @Valid ClientDTO clientToUpdate) {
         return clientService.updateClient(id, clientToUpdate);

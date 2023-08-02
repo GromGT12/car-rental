@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import pl.maks.carrental.repository.model.Car;
 
 @Repository
-public interface SpringDataCarsRepository extends JpaRepository<Car, Integer>{
+public interface CarRepository extends JpaRepository<Car, Integer>{
 }

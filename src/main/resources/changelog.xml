@@ -7,4 +7,5 @@
     <include file="changelog/003-insert_cars_test_data.xml" relativeToChangelogFile="true"/>
     <include file="changelog/004-insert_clients_test_data.xml" relativeToChangelogFile="true"/>
     <include file="changelog/005-insert_contracts_test_data.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/006-rename_column_price_per_day.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
