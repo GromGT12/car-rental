@@ -12,5 +12,7 @@ public interface ClientService {
     Integer createClient(ClientDTO clientDTO);
 
     void deleteById(Integer id);
+
+    ClientDTO updateClient(Integer id, ClientDTO clientToUpdate);
 }
 

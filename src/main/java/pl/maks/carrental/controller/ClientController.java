@@ -1,6 +1,5 @@
 package pl.maks.carrental.controller;
 
-
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
@@ -29,12 +28,17 @@ public class ClientController {
     }
 
     @PostMapping
-    public Integer CreateClient(@RequestBody @Valid ClientDTO userToCreate) {
-        return clientService.createClient(userToCreate);
+    public Integer CreateClient(@RequestBody @Valid ClientDTO clientToCreate) {
+        return clientService.createClient(clientToCreate);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         clientService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ClientDTO update(@PathVariable Integer id, @RequestBody @Valid ClientDTO clientToUpdate) {
+        return clientService.updateClient(id, clientToUpdate);
     }
 }
