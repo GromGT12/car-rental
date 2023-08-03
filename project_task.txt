@@ -16,7 +16,7 @@ ClientDTO
     - firstName - не пустая строка, только буквы
     - lastName - не пустая строка, только буквы
     - documentNumber - не пустая строка, также сделать проверку на уникальность через БД
-    - фссшвутеы - не null
+    - accidents - не null
 
 ContractDTO
     - car - car.getId() != null
