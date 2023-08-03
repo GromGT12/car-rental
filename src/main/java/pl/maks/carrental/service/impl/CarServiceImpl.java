@@ -46,14 +46,14 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional
     public void deleteById(Integer id) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Client not found" + id));
+        Car car = carRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Car not found" + id));
         carRepository.delete(car);
 
     }
 
     @Override
     public CarDTO updateCar(Integer id, CarDTO carToUpdate) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Car not found" + id));
         Car entityToUpdate = carConverter.convertToEntity(carToUpdate);
         entityToUpdate.setId(id);
         Car updateEntity = carRepository.save(entityToUpdate);

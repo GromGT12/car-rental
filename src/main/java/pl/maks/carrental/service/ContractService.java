@@ -5,12 +5,14 @@ import pl.maks.carrental.controller.productDTO.ContractDTO;
 import java.util.List;
 
 public interface ContractService {
-    List<ContractDTO> getAllCars();
+    List<ContractDTO> getAllContract();
 
     ContractDTO getById(Integer id);
 
     Integer createContract(ContractDTO contractDTO);
 
     void deleteById(Integer id);
+
+    ContractDTO updateContract(Integer id, ContractDTO contractToUpdate);
 
 }

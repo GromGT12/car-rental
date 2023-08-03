@@ -42,7 +42,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public Integer createClient(ClientDTO clientToCreate) {
-        //clientValidator.validateClient(clientToCreate);
         Client client = clientConverter.convertToEntity(clientToCreate);
         Client saveClient = clientRepository.save(client);
         return saveClient.getId();
@@ -59,7 +58,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
-        Client client = clientRepository.findById(id).orElseThrow(()-> new CarRentalNotFoundException("Client not found"+ id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
         Client entityToUpdate = clientConverter.convertToEntity(clientToUpdate);
         entityToUpdate.setId(id);
         Client updateEntity = clientRepository.save(entityToUpdate);
