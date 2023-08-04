@@ -18,7 +18,6 @@ public class ClientValidator {
     private static final Pattern ONLY_LETTERS_FIRST_NAME = Pattern.compile("^[a-zA-Z]*$");
     private static final Pattern ONLY_LETTERS_LAST_NAME = Pattern.compile("^[a-zA-Z]*$");
     private static final Pattern DOCUMENTS_NUMBER = Pattern.compile("\\A(?!\\s*\\Z).+");
-    private static final Pattern ACCIDENTS = Pattern.compile("[^0]+");
 
     private final ClientRepository clientRepository;
 
@@ -44,26 +43,17 @@ public class ClientValidator {
         if (!DOCUMENTS_NUMBER.matcher(clientDTO.getDocumentNumber()).matches()) {
             violations.add(String.format("%s can contain only letters: %s documentNumber", clientDTO.getDocumentNumber()));
         }
-        if ((clientDTO.getAccidents())==null) {
+        if ((clientDTO.getAccidents()) == null) {
             violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
         }
         List<Client> allByDocumentNumber = clientRepository.findAllByDocumentNumber(clientDTO.getDocumentNumber());
         if (!allByDocumentNumber.isEmpty()) {
             violations.add(String.format("documentNumber already exists in the system, please choose another", clientDTO.getDocumentNumber()));
         }
-        if(!violations.isEmpty()){
+        if (!violations.isEmpty()) {
             String violationMessage = String.join(", ", violations);
-            throw new ValidationException("Providate documentNumber is invalide:" + violations);
+            throw new ValidationException("Providate documentNumber is invalide:" + violationMessage);
         }
     }
 }
 
-
-/*
-ClientDTO
-    - firstName - не пустая строка, только буквы
-    - lastName - не пустая строка, только буквы
-    - documentNumber - не пустая строка, также сделать проверку на уникальность через БД
-    - accidents - не null
-    ^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$ номер
- */
