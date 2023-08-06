@@ -14,9 +14,7 @@ import static org.hibernate.internal.util.StringHelper.isBlank;
 
 @Component
 public class ClientValidator {
-
-    private static final Pattern ONLY_LETTERS_FIRST_NAME = Pattern.compile("^[a-zA-Z]*$");
-    private static final Pattern ONLY_LETTERS_LAST_NAME = Pattern.compile("^[a-zA-Z]*$");
+    private static final Pattern ONLY_LETTERS = Pattern.compile("^[a-zA-Z]*$");
     private static final Pattern DOCUMENTS_NUMBER = Pattern.compile("\\A(?!\\s*\\Z).+");
 
     private final ClientRepository clientRepository;
@@ -25,35 +23,54 @@ public class ClientValidator {
         this.clientRepository = clientRepository;
     }
 
-    public void clientValidation(ClientDTO clientDTO) {
+    public void validateClient(ClientDTO clientDTO) {
         List<String> violations = new ArrayList<>();
+        validateLetterField(clientDTO.getFirstName(), "firstName", violations);
+        validateLetterField(clientDTO.getLastName(), "lastName", violations);
+        validateAccidents(clientDTO, violations);
+        validateDocumentNumber(clientDTO, violations);
 
-        if (isBlank(clientDTO.getFirstName())) {
-            violations.add("FirstName is blank");
+        if (!violations.isEmpty()) {
+            String violationMessage = String.join(", ", violations);
+            throw new ValidationException("Provide documentNumber is invalid:" + violationMessage);
         }
+    }
+
+    static void validateLetterField(String value, String fieldName, List<String> violations) {
+        if (isBlank(value)) {
+            violations.add(String.format("%s is blank", fieldName));
+        }
+        if (!ONLY_LETTERS.matcher(value).matches()) {
+            violations.add(String.format("%s can contain only letters: '%s'", fieldName, value));
+        }
+    }
+
+    private static void validateLastName(ClientDTO clientDTO, List<String> violations) {
         if (isBlank(clientDTO.getLastName())) {
-            violations.add("LastName is blank");
+            violations.add("Last name is blank");
         }
-        if (!ONLY_LETTERS_FIRST_NAME.matcher(clientDTO.getFirstName()).matches()) {
-            violations.add(String.format("%s can contain only letters: %s firstname", clientDTO.getFirstName()));
+        if (!ONLY_LETTERS.matcher(clientDTO.getLastName()).matches()) {
+            violations.add(String.format("%s can contain only digits: '%s'", "LastName", clientDTO.getLastName()));
         }
-        if (!ONLY_LETTERS_LAST_NAME.matcher(clientDTO.getLastName()).matches()) {
-            violations.add(String.format("%s can contain only letters: %s lastname", clientDTO.getLastName()));
-        }
+    }
+
+    private void validateDocumentNumber(ClientDTO clientDTO, List<String> violations) {
         if (!DOCUMENTS_NUMBER.matcher(clientDTO.getDocumentNumber()).matches()) {
-            violations.add(String.format("%s can contain only letters: %s documentNumber", clientDTO.getDocumentNumber()));
-        }
-        if ((clientDTO.getAccidents()) == null) {
-            violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
+            violations.add(String.format("invalid documentsNumber: '%s'", clientDTO.getDocumentNumber()));
         }
         List<Client> allByDocumentNumber = clientRepository.findAllByDocumentNumber(clientDTO.getDocumentNumber());
         if (!allByDocumentNumber.isEmpty()) {
-            violations.add(String.format("documentNumber already exists in the system, please choose another", clientDTO.getDocumentNumber()));
+            violations.add(String.format("documentsNumber '%s' is already used in the system. Please choose a different one!", clientDTO.getDocumentNumber()));
         }
-        if (!violations.isEmpty()) {
-            String violationMessage = String.join(", ", violations);
-            throw new ValidationException("Providate documentNumber is invalide:" + violationMessage);
+    }
+
+    private static void validateAccidents(ClientDTO clientDTO, List<String> violations) {
+        if ((clientDTO.getAccidents()) == null) {
+            violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
+
         }
     }
 }
+
+
 

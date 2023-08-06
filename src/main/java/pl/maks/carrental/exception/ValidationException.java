@@ -14,4 +14,11 @@ public class ValidationException extends RuntimeException {
     public List<String> getViolations() {
         return violations;
     }
+
+    @Override
+    public String toString() {
+        return getMessage() + "ValidationException{" +
+                "violations=" + violations +
+                '}';
+    }
 }
