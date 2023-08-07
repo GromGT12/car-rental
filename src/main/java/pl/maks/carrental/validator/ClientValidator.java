@@ -36,7 +36,7 @@ public class ClientValidator {
         }
     }
 
-    static void validateLetterField(String value, String fieldName, List<String> violations) {
+    private void validateLetterField(String value, String fieldName, List<String> violations) {
         if (isBlank(value)) {
             violations.add(String.format("%s is blank", fieldName));
         }
@@ -45,7 +45,7 @@ public class ClientValidator {
         }
     }
 
-    private static void validateLastName(ClientDTO clientDTO, List<String> violations) {
+    private void validateLastName(ClientDTO clientDTO, List<String> violations) {
         if (isBlank(clientDTO.getLastName())) {
             violations.add("Last name is blank");
         }
@@ -64,7 +64,7 @@ public class ClientValidator {
         }
     }
 
-    private static void validateAccidents(ClientDTO clientDTO, List<String> violations) {
+    private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
         if ((clientDTO.getAccidents()) == null) {
             violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
 

@@ -21,7 +21,7 @@ public class ParkingValidator {
         validateLetterField(parkingDTO.getPhone(), "phone", violations);
     }
 
-    static void validateLetterField(String value, String fieldName, List<String> violations) {
+    private void validateLetterField(String value, String fieldName, List<String> violations) {
         if (isBlank(value)) {
             violations.add(String.format("%s is blank", fieldName));
         }
@@ -30,7 +30,7 @@ public class ParkingValidator {
         }
     }
 
-    private static void validatePhone(ParkingDTO parkingDTO, List<String> violations) {
+    private void validatePhone(ParkingDTO parkingDTO, List<String> violations) {
         if (isBlank(parkingDTO.getPhone())) {
             violations.add("Phone is blank");
         }

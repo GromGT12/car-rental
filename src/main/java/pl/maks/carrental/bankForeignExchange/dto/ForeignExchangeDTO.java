@@ -1,25 +1,24 @@
 package pl.maks.carrental.bankForeignExchange.dto;
 
-import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
-public class ForeignExchangeDTO{
+public class ForeignExchangeDTO {
 
     private Integer r030;
     private String txt;
     private BigDecimal rate;
     private String cc;
-    private Data exchangeDate;
+    private Date exchangeDate;
 
-    public ForeignExchangeDTO(String cc, Integer r030, Date exchangeDate, BigDecimal rate, String txt) {
-
+    public ForeignExchangeDTO(Integer r030, String txt, BigDecimal rate, String cc, Date exchangeDate) {
+        this.r030 = r030;
+        this.txt = txt;
+        this.rate = rate;
+        this.cc = cc;
+        this.exchangeDate = exchangeDate;
     }
 
-    public ForeignExchangeDTO(String cc, int r030, String s, String s1, String currencyNotFound) {
-
-    }
 
     public Integer getR030() {
         return r030;
@@ -53,11 +52,11 @@ public class ForeignExchangeDTO{
         this.cc = cc;
     }
 
-    public Data getExchangeDate() {
+    public Date getExchangeDate() {
         return exchangeDate;
     }
 
-    public void setExchangeDate(Data exchangeDate) {
+    public void setExchangeDate(Date exchangeDate) {
         this.exchangeDate = exchangeDate;
     }
 }
