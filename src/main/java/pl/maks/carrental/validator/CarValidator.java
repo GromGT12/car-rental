@@ -13,6 +13,7 @@ import static org.hibernate.internal.util.StringHelper.isBlank;
 
 @Component
 public class CarValidator {
+
     private static final Pattern ONLY_LETTERS = Pattern.compile("^[a-zA-Z]*$");
 
     public void carValidation(CarDTO carDTO) {
