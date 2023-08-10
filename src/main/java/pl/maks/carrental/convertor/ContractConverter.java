@@ -6,7 +6,8 @@ import pl.maks.carrental.repository.model.Contract;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class ContractConverter {
@@ -26,7 +27,7 @@ public class ContractConverter {
     public List<ContractDTO> convertToDto(Collection<Contract> source) {
         return source.stream()
                 .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public Contract convertToEntity(ContractDTO source) {

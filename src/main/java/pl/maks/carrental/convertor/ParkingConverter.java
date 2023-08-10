@@ -6,7 +6,8 @@ import pl.maks.carrental.repository.model.Parking;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class ParkingConverter {
@@ -23,7 +24,7 @@ public class ParkingConverter {
     public List<ParkingDTO> convertToDto(Collection<Parking> source) {
         return source.stream()
                 .map(this::convertParkingToDto)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public ParkingDTO convertParkingToDto(Parking source) {

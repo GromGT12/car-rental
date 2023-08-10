@@ -23,7 +23,7 @@ public class CarValidator {
         validateLetterField(carDTO.getModel(), "Model", violations);
         validateLetterField(carDTO.getCarClass(), "CarClass", violations);
         validateLetterField(carDTO.getFuel(), "Fuel", violations);
-        validatePrice(carDTO.getPricePerDay(), "PricePerDay", violations);
+        validatePrice(carDTO.getPricePerDay(), violations);
 
         if (!violations.isEmpty()) {
             String violationMessage = String.join(", ", violations);
@@ -40,9 +40,9 @@ public class CarValidator {
         }
     }
 
-    private void validatePrice(BigDecimal price, String fieldName, List<String> violations) {
+    private void validatePrice(BigDecimal price, List<String> violations) {
         if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
-            violations.add(fieldName + " must not be null and greater than zero");
+            violations.add("PricePerDay" + " must not be null and greater than zero");
         }
     }
 

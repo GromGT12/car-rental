@@ -60,7 +60,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
         clientValidator.validateClient(clientToUpdate);
-        Client client = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
+        Client с = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
         Client entityToUpdate = clientConverter.convertToEntity(clientToUpdate);
         entityToUpdate.setId(id);
         Client updateEntity = clientRepository.save(entityToUpdate);

@@ -6,7 +6,8 @@ import pl.maks.carrental.repository.model.Client;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class ClientConverter {
@@ -27,7 +28,7 @@ public class ClientConverter {
     public List<ClientDTO> convertToDto(Collection<Client> source) {
         return source.stream()
                 .map(this::convertClientToDto)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     private ClientDTO convertClientToDto(Client source) {
