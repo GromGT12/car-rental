@@ -8,6 +8,7 @@ import pl.maks.carrental.exception.CarRentalNotFoundException;
 import pl.maks.carrental.repository.CarRepository;
 import pl.maks.carrental.repository.model.Car;
 import pl.maks.carrental.service.CarService;
+import pl.maks.carrental.validator.CarValidator;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,10 +18,12 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
     private final CarConverter carConverter;
     private final CarRepository carRepository;
+    private final CarValidator carValidator;
 
-    public CarServiceImpl(CarConverter carConverter, CarRepository carRepository) {
+    public CarServiceImpl(CarConverter carConverter, CarRepository carRepository, CarValidator carValidator) {
         this.carConverter = carConverter;
         this.carRepository = carRepository;
+        this.carValidator = carValidator;
     }
 
     @Override
@@ -38,6 +41,7 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional
     public Integer createCar(CarDTO carToCreate) {
+        carValidator.carValidation(carToCreate);
         Car car = carConverter.convertToEntity(carToCreate);
         Car saveCar = carRepository.save(car);
         return saveCar.getId();
@@ -53,6 +57,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDTO updateCar(Integer id, CarDTO carToUpdate) {
+        carValidator.carValidation(carToUpdate);
         Car car = carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Car not found" + id));
         Car entityToUpdate = carConverter.convertToEntity(carToUpdate);
         entityToUpdate.setId(id);

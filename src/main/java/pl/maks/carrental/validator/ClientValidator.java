@@ -3,29 +3,74 @@ package pl.maks.carrental.validator;
 import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
+import pl.maks.carrental.repository.ClientRepository;
+import pl.maks.carrental.repository.model.Client;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
+
+import static org.hibernate.internal.util.StringHelper.isBlank;
 
 @Component
 public class ClientValidator {
-    private static final String NAME_REGEX = "^[a-zA-Z]*$";
-    private static final String DOCUMENT_NUMBER_REGEX = "^[A-Za-z0-9]{10}$";
+    private static final Pattern ONLY_LETTERS = Pattern.compile("^[a-zA-Z]*$");
+    private static final Pattern DOCUMENTS_NUMBER = Pattern.compile("\\A(?!\\s*\\Z).+");
 
-    public void validateClient(ClientDTO clientDTO) {
-        validateName(clientDTO.getFirstName());
-        validateName(clientDTO.getLastName());
-        validateDocumentNumber(clientDTO.getDocumentNumber());
+    private final ClientRepository clientRepository;
+
+    public ClientValidator(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
-    private void validateName(String name) {
-        if (Pattern.matches(NAME_REGEX, name)) {
-            throw new ValidationException("Invalid name format. Only letters, spaces, hyphens, and apostrophes are allowed.");
+    public void validateClient(ClientDTO clientDTO) {
+        List<String> violations = new ArrayList<>();
+        validateLetterField(clientDTO.getFirstName(), "firstName", violations);
+        validateLetterField(clientDTO.getLastName(), "lastName", violations);
+        validateAccidents(clientDTO, violations);
+        validateDocumentNumber(clientDTO, violations);
+
+        if (!violations.isEmpty()) {
+            String violationMessage = String.join(", ", violations);
+            throw new ValidationException("Provide documentNumber is invalid:" + violationMessage);
         }
     }
 
-    private void validateDocumentNumber(String documentNumber) {
-        if (!Pattern.matches(DOCUMENT_NUMBER_REGEX, documentNumber)) {
-            throw new ValidationException("Invalid document number format. It should contain 10 characters, including letters and numbers.");
+    private void validateLetterField(String value, String fieldName, List<String> violations) {
+        if (isBlank(value)) {
+            violations.add(String.format("%s is blank", fieldName));
+        }
+        if (!ONLY_LETTERS.matcher(value).matches()) {
+            violations.add(String.format("%s can contain only letters: '%s'", fieldName, value));
+        }
+    }
+
+    private void validateLastName(ClientDTO clientDTO, List<String> violations) {
+        if (isBlank(clientDTO.getLastName())) {
+            violations.add("Last name is blank");
+        }
+        if (!ONLY_LETTERS.matcher(clientDTO.getLastName()).matches()) {
+            violations.add(String.format("%s can contain only digits: '%s'", "LastName", clientDTO.getLastName()));
+        }
+    }
+
+    private void validateDocumentNumber(ClientDTO clientDTO, List<String> violations) {
+        if (!DOCUMENTS_NUMBER.matcher(clientDTO.getDocumentNumber()).matches()) {
+            violations.add(String.format("invalid documentsNumber: '%s'", clientDTO.getDocumentNumber()));
+        }
+        List<Client> allByDocumentNumber = clientRepository.findAllByDocumentNumber(clientDTO.getDocumentNumber());
+        if (!allByDocumentNumber.isEmpty()) {
+            violations.add(String.format("documentsNumber '%s' is already used in the system. Please choose a different one!", clientDTO.getDocumentNumber()));
+        }
+    }
+
+    private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
+        if ((clientDTO.getAccidents()) == null) {
+            violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
+
         }
     }
 }
+
+
+

@@ -1,30 +1,41 @@
 package pl.maks.carrental.validator;
 
-import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.ParkingDTO;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
+
+import static org.hibernate.internal.util.StringHelper.isBlank;
+
 
 @Component
 public class ParkingValidator {
-    private static final String NAME_REGEX = "^[a-zA-Z0-9\\s'-]*$";
-    private static final String PHONE_NUMBER_REGEX = "^(?:\\+?\\d{1,4}\\s?)?(?:\\(\\d{1,4}\\)\\s?)?(?:[-.\\s]?\\d{1,5}){1,6}$";
+    private static final Pattern ONLY_LETTERS_NAME = Pattern.compile("^[a-zA-Z0-9\\s'-]*$");
+    private static final Pattern PHONE_NUMBER = Pattern.compile("^(?:\\+?\\d{1,4}\\s?)?(?:\\(\\d{1,4}\\)\\s?)?(?:[-.\\s]?\\d{1,5}){1,6}$");
 
-    public void validateParking(ParkingDTO parking) {
-        validateName(parking.getName());
-        validatePhoneNumber(parking.getPhone());
+    public void parkingValidation(ParkingDTO parkingDTO) {
+        List<String> violations = new ArrayList<>();
+        validateLetterField(parkingDTO.getName(), "name", violations);
+        validateLetterField(parkingDTO.getPhone(), "phone", violations);
     }
 
-    private void validateName(String name) {
-        if (!Pattern.matches(NAME_REGEX, name)) {
-            throw new ValidationException("Invalid parking name format. Only letters, digits, spaces, hyphens, and apostrophes are allowed.");
+    private void validateLetterField(String value, String fieldName, List<String> violations) {
+        if (isBlank(value)) {
+            violations.add(String.format("%s is blank", fieldName));
+        }
+        if (!ONLY_LETTERS_NAME.matcher(value).matches()) {
+            violations.add(String.format("%s can contain only letters: %s name", fieldName, value));
         }
     }
 
-    private void validatePhoneNumber(String phoneNumber) {
-        if (!Pattern.matches(PHONE_NUMBER_REGEX, phoneNumber)) {
-            throw new ValidationException("Invalid parking phone number format. Please provide a valid phone number.");
+    private void validatePhone(ParkingDTO parkingDTO, List<String> violations) {
+        if (isBlank(parkingDTO.getPhone())) {
+            violations.add("Phone is blank");
+        }
+        if (!PHONE_NUMBER.matcher(parkingDTO.getPhone()).matches()) {
+            violations.add(String.format("%s can contain only digits: '%s'", "phone", parkingDTO.getPhone()));
         }
     }
 }

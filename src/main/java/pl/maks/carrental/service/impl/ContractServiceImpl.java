@@ -8,6 +8,7 @@ import pl.maks.carrental.exception.CarRentalNotFoundException;
 import pl.maks.carrental.repository.ContractRepository;
 import pl.maks.carrental.repository.model.Contract;
 import pl.maks.carrental.service.ContractService;
+import pl.maks.carrental.validator.ContractValidator;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,10 +19,12 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractConverter contractConverter;
     private final ContractRepository contractRepository;
+    private final ContractValidator contractValidator;
 
-    public ContractServiceImpl(ContractConverter contractConverter, ContractRepository contractRepository) {
+    public ContractServiceImpl(ContractConverter contractConverter, ContractRepository contractRepository, ContractValidator contractValidator) {
         this.contractConverter = contractConverter;
         this.contractRepository = contractRepository;
+        this.contractValidator = contractValidator;
     }
 
     @Override
@@ -39,6 +42,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public Integer createContract(ContractDTO contractToCreate) {
+        contractValidator.validateContract(contractToCreate);
         Contract contract = contractConverter.convertToEntity(contractToCreate);
         Contract saveContract = contractRepository.save(contract);
         return saveContract.getId();
@@ -54,6 +58,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public ContractDTO updateContract(Integer id, ContractDTO contractToUpdate) {
+        contractValidator.validateContract(contractToUpdate);
         Contract contract = contractRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Contract not found" + id));
         Contract entityToUpdate = contractConverter.convertToEntity(contractToUpdate);
         entityToUpdate.setId(id);

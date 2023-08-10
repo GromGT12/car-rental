@@ -14,5 +14,4 @@ public class CarRentalApplication {
         SpringApplication.run(CarRentalApplication.class, args);
         LOGGER.info("Application run");
     }
-
 }

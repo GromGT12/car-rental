@@ -1,0 +1,45 @@
+Валидация сущностей:
+
+ParkingDTO
+    - name - не пустая строка
+    - phone - не пустая строка, только цифры
+
+CarDTO
+    - brand - не пустая строка
+    - model - не пустая строка
+    - carClass - не пустая строка
+    - fuel   - не пустая строка
+    - pricePerDay - не null, > BigDecimal.ZERO
+    - parking - parking.getId != null
+
+ClientDTO
+    - firstName - не пустая строка, только буквы
+    - lastName - не пустая строка, только буквы
+    - documentNumber - не пустая строка, также сделать проверку на уникальность через БД
+    - accidents - не null
+
+ContractDTO
+    - car - car.getId() != null
+    - client  - client.getId() != null
+    - startDate != null
+    - endDate != null
+    - price !=null, > BigDecimal.ZERO
+
+Создать эндпоинт для предварительного расчета цены. get эндпоинт с обязательными параметрами:
+Integer client, Integer car, Integer days.
+сервис должен будет рассчитать цену на основании цены авто за день и коэффициента "проблемности" водителя
+если у водителя 0-5 дтп - коэффициент 1, 6-10 - коэффициент 1.2, 11-19 - 1.5. Если у клиента 20 дтп - выбрасывать валидационную ошибку
+с текстом: "Client Ivan Ivanov has 20 accidents and can't rent a car in out service"
+
+Интеграция с Национальным Банком Украины.
+Добавить в систему эндпоинт, который будет возвращать курс гривны к валюте.
+get эндпоинт, который принимает в качестве параметра код валюты и возвращает ответ типа:
+[
+  {
+    "name": "Швейцарський франк",
+    "rate": 41.6262,
+    "code": "CHF",
+    "exchangeDate": "03.08.2023"
+  }
+]
+курсы валют брать здесь: https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json

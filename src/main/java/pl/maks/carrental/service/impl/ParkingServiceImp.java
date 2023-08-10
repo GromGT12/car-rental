@@ -44,6 +44,7 @@ public class ParkingServiceImp implements ParkingService {
     @Override
     @Transactional
     public Integer createParking(ParkingDTO parkingToCreate) {
+        parkingValidator.parkingValidation(parkingToCreate);
         Parking parking = parkingConverter.convertToEntity(parkingToCreate);
         Parking saveParking = parkingRepository.save(parking);
         return saveParking.getId();
@@ -58,6 +59,7 @@ public class ParkingServiceImp implements ParkingService {
 
     @Override
     public ParkingDTO updateParking(Integer id, ParkingDTO parkingToUpdate) {
+        parkingValidator.parkingValidation(parkingToUpdate);
         Parking parking = parkingRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Parking not found" + id));
         Parking entityToUpdate = parkingConverter.convertToEntity(parkingToUpdate);
         entityToUpdate.setId(id);
