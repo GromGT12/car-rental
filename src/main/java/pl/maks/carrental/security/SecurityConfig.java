@@ -14,7 +14,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(
                 User.withDefaultPasswordEncoder()
-                        .username("user")
+                        .username("calculate-Rental-Price")
                         .password("password")
                         .roles("USER")
                         .build(),

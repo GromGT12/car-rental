@@ -1,5 +1,6 @@
 package pl.maks.carrental.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import pl.maks.carrental.service.CarRentalService;
 
 import java.math.BigDecimal;
 
+@Tag(name = "CarRentalController management API", description = "API for CRUD operation with cars")
 @RestController
 public class CarRentalController {
 
@@ -19,7 +21,8 @@ public class CarRentalController {
         this.carRentalService = carRentalService;
     }
 
-    @GetMapping("/calculateRentalPrice")
+    @Tag(name = "Calculating the rental cost of a car", description = "In case the client exceeds the accident limit, they will be denied the car rental")
+    @GetMapping("/calculate-Rental-Price")
     public ResponseEntity<String> calculateRentalPrice(
             @RequestParam Integer client,
             @RequestParam Integer car,
