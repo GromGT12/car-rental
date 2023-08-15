@@ -1,4 +1,5 @@
 package pl.maks.carrental.security;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,9 +26,8 @@ public class SecurityConfig {
                 .build();
         UserDetails admin = users
                 .username("admin")
-                .password("chacha")
-                .roles("ADMIN")
-                .authorities("ADMIN")
+                .password("lupa")
+                .roles("ADMIN", "CLIENT")
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
     }
@@ -38,10 +38,11 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.GET, "/clients/**", "/contracts/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/clients", "/contracts/").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/clients/**", "/contracts/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/clients/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/cars/", "/parkings/").hasRole("CLIENT")
+
+                        .requestMatchers(HttpMethod.POST, "/clients/", "/cars/", "/parkings/", "/contracts/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/clients/", "/contracts/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/clients/").hasRole("ADMIN")
                         .requestMatchers("/hello/**").hasRole("HELLO")
                         .requestMatchers("/random-joke").permitAll()
                         .anyRequest().authenticated())
