@@ -8,7 +8,7 @@ import pl.maks.carrental.service.ClientService;
 
 import java.util.List;
 
-@Tag(name = "Client management API", description = "API for CRUD operation with clients")
+@Tag(name = "Client management API", description = "API for operation with clients")
 @RestController
 @RequestMapping("/clients")
 public class ClientController {

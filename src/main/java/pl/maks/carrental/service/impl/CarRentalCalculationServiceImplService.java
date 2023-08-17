@@ -4,14 +4,14 @@ import org.springframework.stereotype.Service;
 import pl.maks.carrental.exception.ValidationException;
 import pl.maks.carrental.repository.ClientRepository;
 import pl.maks.carrental.repository.model.Client;
-import pl.maks.carrental.service.CarRentalService;
+import pl.maks.carrental.service.RentalPriceCalculatorService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-public class CarRentalCalculationServiceImpl implements CarRentalService {
+public class CarRentalCalculationServiceImplService implements RentalPriceCalculatorService {
 
     private final BigDecimal BASE_DAILY_RATE = BigDecimal.valueOf(150.0);
     private final BigDecimal ACCIDENT_COEFFICIENT_1 = BigDecimal.valueOf(1.0);
@@ -20,7 +20,7 @@ public class CarRentalCalculationServiceImpl implements CarRentalService {
 
     private final ClientRepository clientRepository;
 
-    public CarRentalCalculationServiceImpl(ClientRepository clientRepository) {
+    public CarRentalCalculationServiceImplService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
@@ -39,7 +39,7 @@ public class CarRentalCalculationServiceImpl implements CarRentalService {
     }
 
     private int getAccidents(Integer clientId) {
-        Client clientDTO = clientRepository.getClientInfoWithAccidentsById(clientId);
+        Client clientDTO = clientRepository.getById(clientId);
         return clientDTO.getAccidents();
     }
 

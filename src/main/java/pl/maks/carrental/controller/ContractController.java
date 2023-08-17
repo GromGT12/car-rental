@@ -7,7 +7,7 @@ import pl.maks.carrental.service.ContractService;
 
 import java.util.List;
 
-@Tag(name = "Contract management API", description = "API for CRUD operation with contracts")
+@Tag(name = "Contract management API", description = "API for operation with contracts")
 @RestController
 @RequestMapping("/contracts")
 public class ContractController {

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.maks.carrental.bankForeignExchange.dto.ForeignExchangeDTO;
 import pl.maks.carrental.bankForeignExchange.service.ForeignExchangeService;
 
-@Tag(name = "Foreign management API", description = "API for CRUD operation with foreign")
+@Tag(name = "Foreign management API", description = "API for working with the hryvnia exchange rate")
 
 @RestController
 @RequestMapping("/currencies")

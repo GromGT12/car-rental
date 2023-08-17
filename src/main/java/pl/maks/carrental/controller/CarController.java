@@ -7,7 +7,7 @@ import pl.maks.carrental.service.CarService;
 
 import java.util.List;
 
-@Tag(name = "Car management API", description = "API for CRUD operation with cars")
+@Tag(name = "Car management API", description = "API for operation with cars")
 @RestController
 @RequestMapping("/cars")
 public class CarController {

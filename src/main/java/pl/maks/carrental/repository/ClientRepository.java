@@ -10,5 +10,4 @@ import java.util.List;
 public interface ClientRepository extends JpaRepository<Client, Integer> {
     List<Client> findAllByDocumentNumber(String documentNumber);
 
-    Client getClientInfoWithAccidentsById(Integer clientId);
 }

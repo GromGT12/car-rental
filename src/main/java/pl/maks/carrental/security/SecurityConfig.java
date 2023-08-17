@@ -39,11 +39,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.GET, "/cars/", "/parkings/").hasRole("CLIENT")
-
                         .requestMatchers(HttpMethod.POST, "/clients/", "/cars/", "/parkings/", "/contracts/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/clients/", "/contracts/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/clients/").hasRole("ADMIN")
-                        .requestMatchers("/hello/**").hasRole("HELLO")
                         .requestMatchers("/random-joke").permitAll()
                         .anyRequest().authenticated())
                 .build();
