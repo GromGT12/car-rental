@@ -1,8 +1,8 @@
 package pl.maks.carrental.validator;
 
-import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
+import pl.maks.carrental.exception.CarRentalValidationException;
 import pl.maks.carrental.repository.ClientRepository;
 import pl.maks.carrental.repository.model.Client;
 
@@ -31,8 +31,7 @@ public class ClientValidator {
         validateDocumentNumber(clientDTO, violations);
 
         if (!violations.isEmpty()) {
-            String violationMessage = String.join(", ", violations);
-            throw new ValidationException("Provide documentNumber is invalid:" + violationMessage);
+            throw new CarRentalValidationException("Provide Client is invalid:", violations);
         }
     }
 
@@ -64,13 +63,20 @@ public class ClientValidator {
         }
     }
 
-    private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
+    /*
+       private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
         if ((clientDTO.getAccidents()) == null) {
             violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
+     */
+    private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
+        if (clientDTO.getAccidents() == null) {
+            violations.add("Accidents count can't be null");
+        }
 
+        if (!violations.isEmpty()) {
+            throw new CarRentalValidationException("Provide Client is invalid:", violations);
         }
     }
 }
-
 
 

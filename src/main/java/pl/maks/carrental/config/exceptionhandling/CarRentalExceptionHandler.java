@@ -1,11 +1,11 @@
-package pl.maks.carrental.config;
+package pl.maks.carrental.config.exceptionhandling;
 
-import jakarta.validation.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.maks.carrental.exception.CarRentalNotFoundException;
+import pl.maks.carrental.exception.CarRentalValidationException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -24,8 +24,8 @@ public class CarRentalExceptionHandler {
         return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
     }
 
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<String> handleValidationException(ValidationException e) {
+    @ExceptionHandler(CarRentalValidationException.class)
+    public ResponseEntity<String> handleValidationException(CarRentalValidationException e) {
         return ResponseEntity.status(BAD_REQUEST).body(e.toString());
     }
 }
