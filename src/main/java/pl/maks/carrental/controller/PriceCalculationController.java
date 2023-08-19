@@ -21,7 +21,7 @@ public class PriceCalculationController {
     }
 
     @Tag(name = "Calculating the rental cost of a car", description = "In case the client exceeds the accident limit, they will be denied the car rental")
-    @GetMapping("/calculate-Rental-Price")
+    @GetMapping("/calculate-rental-price")
     public BigDecimal calculateRentalPrice(
             @RequestParam Integer client,
             @RequestParam Integer car,

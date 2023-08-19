@@ -1,7 +1,7 @@
 package pl.maks.carrental.service.impl;
 
 import org.springframework.stereotype.Service;
-import pl.maks.carrental.exception.ValidationException;
+import pl.maks.carrental.exception.CarRentalValidationException;
 import pl.maks.carrental.repository.ClientRepository;
 import pl.maks.carrental.repository.model.Client;
 import pl.maks.carrental.service.RentalPriceCalculatorService;
@@ -27,11 +27,10 @@ public class CarRentalCalculationServiceImplService implements RentalPriceCalcul
     @Override
     public BigDecimal calculateRentalPrice(Integer client, Integer car, Integer days) {
         int accidents = getAccidents(client);
-
         int MAX_ACCIDENTS = 20;
         if (accidents >= MAX_ACCIDENTS) {
-            List<String> violationMessage = Collections.singletonList("Validation failed");
-            throw new ValidationException("Client has 20 accidents and can't rent a car in our service", violationMessage);
+            List<String> violationMessage = Collections.singletonList("Client has 20 accidents and can't rent a car in our service");
+            throw new CarRentalValidationException("Validation failed", violationMessage);
         }
 
         BigDecimal coefficient = getAccidentCoefficient(accidents);

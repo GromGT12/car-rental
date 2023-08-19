@@ -3,11 +3,11 @@ package pl.maks.carrental.exception;
 
 import java.util.List;
 
-public class ValidationException extends RuntimeException {
+public class CarRentalValidationException extends RuntimeException {
 
     private final List<String> violations;
 
-    public ValidationException(String message, List<String> violations) {
+    public CarRentalValidationException(String message, List<String> violations) {
         super(message);
         this.violations = violations;
     }

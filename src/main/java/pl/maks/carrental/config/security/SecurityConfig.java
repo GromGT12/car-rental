@@ -1,4 +1,4 @@
-package pl.maks.carrental.security;
+package pl.maks.carrental.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
