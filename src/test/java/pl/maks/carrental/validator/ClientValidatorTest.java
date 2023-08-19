@@ -61,7 +61,7 @@ class ClientValidatorTest {
     void shouldThrow_whenLastNameIsBlank() {
         //given
         ClientDTO emptyLastNameClient = emptyLastNameClient();
-        String expectedMessage = "LastName is blank";
+        String expectedMessage = "lastName is blank";
 
         //when
         CarRentalValidationException carRentalValidationException = assertThrows(CarRentalValidationException.class, () -> target.validateClient(emptyLastNameClient));
