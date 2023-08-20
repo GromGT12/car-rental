@@ -5,11 +5,15 @@ import org.junit.jupiter.api.Test;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
 import pl.maks.carrental.repository.ClientRepository;
+import pl.maks.carrental.repository.model.Client;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ClientValidatorTest {
 
@@ -98,6 +102,55 @@ class ClientValidatorTest {
         assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
     }
 
+    @Test
+    @DisplayName("Validation error should be thrown if the documentNumber address is invalid")
+    void shouldThrow_whenDocumentsNumberIsInvalid() {
+        //given
+        ClientDTO invalidDocumentsNumberClient = invalidDocumentsNumberClient();
+        String expectedMessage = String.format("invalid documentsNumber: '%s'", invalidDocumentsNumberClient.getDocumentNumber());
+
+        //when
+        CarRentalValidationException carRentalValidationException = assertThrows(CarRentalValidationException.class, () -> target.validateClient(invalidDocumentsNumberClient));
+
+        //then
+        assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
+    }
+
+
+    @Test
+    @DisplayName("Validation Error should be thrown when documentNumber is already client")
+    void shouldThrowValidationError_WhenDocumentNumber() {
+        //given
+        ClientDTO clientDocumentNumber = clientDocumentNumber();
+        clientDocumentNumber.setDocumentNumber("dxz875848382");
+        when(clientRepository.findAllByDocumentNumber("used_document_number")).thenReturn(List.of(new Client()));
+
+        //when
+        CarRentalValidationException validationException = assertThrows(CarRentalValidationException.class, () -> target.validateClient(clientDocumentNumber));
+
+        //then
+        String expectedMessage = String.format("documentsNumber '%s' is already used in the system. Please choose a different one!", clientDocumentNumber.getDocumentNumber());
+        assertThat(validationException.getViolations()).contains(expectedMessage);
+    }
+
+    private ClientDTO clientDocumentNumber() {
+        ClientDTO dto = new ClientDTO();
+        dto.setAccidents(11);
+        dto.setDocumentNumber("invalid_documentNumber");
+        dto.setFirstName("TestFirstName");
+        dto.setLastName("TestLastName");
+        return dto;
+    }
+
+    private ClientDTO invalidDocumentsNumberClient() {
+        ClientDTO dto = new ClientDTO();
+        dto.setAccidents(11);
+        dto.setDocumentNumber("invalid_documentNumber");
+        dto.setFirstName("TestFirstName");
+        dto.setLastName("TestLastName");
+        return dto;
+    }
+
     private ClientDTO emptyNameClient() {
         ClientDTO dto = new ClientDTO();
         dto.setAccidents(11);
@@ -148,7 +201,7 @@ class ClientValidatorTest {
         dto.setAccidents(11);
         dto.setDocumentNumber("dxz875848382");
         dto.setFirstName("TestFirstName");
-        dto.setLastName("");
+        dto.setLastName("TestLastName");
         return dto;
     }
 }

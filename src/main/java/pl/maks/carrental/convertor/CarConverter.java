@@ -46,7 +46,6 @@ public class CarConverter {
         result.setFuel(source.getFuel());
         result.setModel(source.getModel());
         result.setPricePerDay(source.getPricePerDay());
-        result.setParking(parkingConverter.convertParkingToDto(source.getParking()));
         return result;
     }
 }

@@ -53,7 +53,7 @@ public class ClientValidator {
         }
     }
 
-    private void validateDocumentNumber(ClientDTO clientDTO, List<String> violations) {
+    void validateDocumentNumber(ClientDTO clientDTO, List<String> violations) {
         if (!DOCUMENTS_NUMBER.matcher(clientDTO.getDocumentNumber()).matches()) {
             violations.add(String.format("invalid documentsNumber: '%s'", clientDTO.getDocumentNumber()));
         }
@@ -63,11 +63,6 @@ public class ClientValidator {
         }
     }
 
-    /*
-       private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
-        if ((clientDTO.getAccidents()) == null) {
-            violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
-     */
     private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
         if (clientDTO.getAccidents() == null) {
             violations.add("Accidents count can't be null");

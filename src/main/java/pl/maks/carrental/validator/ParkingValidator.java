@@ -2,6 +2,7 @@ package pl.maks.carrental.validator;
 
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.ParkingDTO;
+import pl.maks.carrental.repository.ParkingRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,12 @@ import static org.hibernate.internal.util.StringHelper.isBlank;
 public class ParkingValidator {
     private static final Pattern ONLY_LETTERS_NAME = Pattern.compile("^[a-zA-Z0-9\\s'-]*$");
     private static final Pattern PHONE_NUMBER = Pattern.compile("^(?:\\+?\\d{1,4}\\s?)?(?:\\(\\d{1,4}\\)\\s?)?(?:[-.\\s]?\\d{1,5}){1,6}$");
+
+    private final ParkingRepository parkingRepository;
+
+    public ParkingValidator(ParkingRepository parkingRepository) {
+        this.parkingRepository = parkingRepository;
+    }
 
     public void parkingValidation(ParkingDTO parkingDTO) {
         List<String> violations = new ArrayList<>();

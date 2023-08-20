@@ -1,8 +1,9 @@
 package pl.maks.carrental.validator;
 
-import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.CarDTO;
+import pl.maks.carrental.exception.CarRentalValidationException;
+import pl.maks.carrental.repository.CarRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,6 +16,11 @@ import static org.hibernate.internal.util.StringHelper.isBlank;
 public class CarValidator {
 
     private static final Pattern ONLY_LETTERS = Pattern.compile("^[a-zA-Z]*$");
+    private final CarRepository carRepository;
+
+    public CarValidator(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
     public void carValidation(CarDTO carDTO) {
         List<String> violations = new ArrayList<>();
@@ -26,8 +32,8 @@ public class CarValidator {
         validatePrice(carDTO.getPricePerDay(), "PricePerDay", violations);
 
         if (!violations.isEmpty()) {
-            String violationMessage = String.join(", ", violations);
-            throw new ValidationException("Provided car details are invalid: " + violationMessage);
+            String violation = String.join(", ", violations);
+            throw new CarRentalValidationException("Provided car details are invalid: ", violations);
         }
     }
 
