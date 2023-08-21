@@ -18,7 +18,7 @@ class CarValidatorTest {
     private final CarRepository carRepository = mock(CarRepository.class);
     private final CarValidator target = new CarValidator(carRepository);
     private final ParkingDTO parkingDTO = mock(ParkingDTO.class);
-    //private final CarDTO carDTO = mock(CarDTO.class);
+    private final CarDTO carDTO = mock(CarDTO.class);
 
     @Test
     @DisplayName("Validation Error should not be thrown when input client is valid")
@@ -51,7 +51,7 @@ class CarValidatorTest {
     void shouldThrow_whenPriceIsNull() {
         //given
         CarDTO nullPriceCar = nullPriceCar();
-        String expectedMessage = "price per day cannot be null or more than zero";
+        String expectedMessage = "PricePerDay must not be null and greater than zero";
 
         //when
         CarRentalValidationException carRentalValidationException = assertThrows(CarRentalValidationException.class, () -> target.carValidation(nullPriceCar));
@@ -61,57 +61,61 @@ class CarValidatorTest {
     }
 
     @Test
-    @DisplayName("Validation Error should be thrown when Parking id is null")
+    @DisplayName("Должно выбрасываться исключение при нулевом идентификаторе парковки")
     void shouldThrow_whenParkingIdIsNull() {
-        //given
-        CarDTO nullParkingIdCar = nullParkingIdCar();
+        // given
+        CarDTO nullParkingId = nullParkingId();
         String expectedMessage = "Parking id is null";
-
         //when
-        CarRentalValidationException carRentalValidationException = assertThrows(CarRentalValidationException.class, () -> target.carValidation(nullParkingIdCar));
-
+        CarRentalValidationException carRentalValidationException =
+                assertThrows(CarRentalValidationException.class, () -> target.carValidation(nullParkingId));
         //then
         assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
     }
-        private CarDTO validCar () {
-            CarDTO carDTO = new CarDTO();
-            carDTO.setBrand("TestBrand");
-            carDTO.setCarClass("TestCarClass");
-            carDTO.setFuel("TestFuel");
-            carDTO.setModel("TestModel");
-            carDTO.setParking(parkingDTO);
-            carDTO.setPricePerDay(BigDecimal.valueOf(150.0));
-            return carDTO;
-        }
-        private CarDTO emptyFieldName () {
-            CarDTO carDTO = new CarDTO();
-            carDTO.setBrand("TestBrand");
-            carDTO.setCarClass("TestCarClass");
-            carDTO.setFuel("TestFuel");
-            carDTO.setModel("TestModel");
-            carDTO.setParking(parkingDTO);
-            carDTO.setPricePerDay(BigDecimal.valueOf(150.0));
-            return carDTO;
 
-        }
-        private CarDTO nullPriceCar () {
-            CarDTO carDTO = new CarDTO();
-            carDTO.setBrand("TestBrand");
-            carDTO.setCarClass("TestCarClass");
-            carDTO.setFuel("TestFuel");
-            carDTO.setModel("TestModel");
-            carDTO.setParking(parkingDTO);
-            carDTO.setPricePerDay(new BigDecimal(0));
-            return carDTO;
-        }
-    private CarDTO nullParkingIdCar() {
+    private CarDTO nullParkingId() {
         CarDTO carDTO = new CarDTO();
         carDTO.setBrand("TestBrand");
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
         carDTO.setParking(new ParkingDTO());
+        carDTO.setPricePerDay(new BigDecimal(150.0));
+        return carDTO;
+    }
+
+
+    private CarDTO validCar() {
+        CarDTO carDTO = new CarDTO();
+        carDTO.setBrand("TestBrand");
+        carDTO.setCarClass("TestCarClass");
+        carDTO.setFuel("TestFuel");
+        carDTO.setModel("TestModel");
+        carDTO.setParking(parkingDTO);
         carDTO.setPricePerDay(BigDecimal.valueOf(150.0));
+        return carDTO;
+    }
+
+    private CarDTO emptyFieldName() {
+        CarDTO carDTO = new CarDTO();
+        carDTO.setBrand("TestBrand");
+        carDTO.setCarClass("TestCarClass");
+        carDTO.setFuel("TestFuel");
+        carDTO.setModel("TestModel");
+        carDTO.setParking(parkingDTO);
+        carDTO.setPricePerDay(BigDecimal.valueOf(150.0));
+        return carDTO;
+
+    }
+
+    private CarDTO nullPriceCar() {
+        CarDTO carDTO = new CarDTO();
+        carDTO.setBrand("TestBrand");
+        carDTO.setCarClass("TestCarClass");
+        carDTO.setFuel("TestFuel");
+        carDTO.setModel("TestModel");
+        carDTO.setParking(parkingDTO);
+        carDTO.setPricePerDay(new BigDecimal(0));
         return carDTO;
     }
 }

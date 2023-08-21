@@ -1,7 +1,9 @@
 package pl.maks.carrental.validator;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.CarDTO;
+import pl.maks.carrental.controller.productDTO.ParkingDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
 import pl.maks.carrental.repository.CarRepository;
 
@@ -17,6 +19,7 @@ public class CarValidator {
 
     private static final Pattern ONLY_LETTERS = Pattern.compile("^[a-zA-Z]*$");
     private final CarRepository carRepository;
+    private final CarDTO carDTO = new CarDTO();
 
     public CarValidator(CarRepository carRepository) {
         this.carRepository = carRepository;
@@ -53,7 +56,7 @@ public class CarValidator {
     }
 
     private void validateParking(CarDTO carDTO, List<String> violations) {
-        if (carDTO == null || carDTO.getId() == null) {
+        if (carDTO.getParking().getId() == null || carDTO.getParking().getId() == null) {
             violations.add("Parking id is null");
         }
     }
