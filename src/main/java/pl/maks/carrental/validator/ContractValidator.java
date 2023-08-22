@@ -6,6 +6,7 @@ import pl.maks.carrental.controller.productDTO.CarDTO;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.controller.productDTO.ContractDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
+import pl.maks.carrental.repository.ContractRepository;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -14,6 +15,13 @@ import java.util.List;
 
 @Component
 public class ContractValidator {
+
+    private final ContractRepository contractRepository;
+
+    public ContractValidator(ContractRepository contractRepository) {
+        this.contractRepository = contractRepository;
+    }
+
     public void validateContract(ContractDTO contractDTO) {
         List<String> violations = new ArrayList<>();
         validateCar(contractDTO.getCar(), violations);

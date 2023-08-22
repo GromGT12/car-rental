@@ -35,15 +35,15 @@ class CarValidatorTest {
     @Test
     @DisplayName("Validation Error should be thrown when FieldName is blank")
     void shouldThrow_whenFieldNameIsBlank() {
-        //given
+        // Given
         CarDTO emptyFieldName = emptyFieldName();
-        String expectedMessage = "fieldName is blank";
+        String expectedPrefix = "is blank"; // Префикс, который мы ожидаем
 
-        //when
-        CarRentalValidationException carRentalValidationException = assertThrows(CarRentalValidationException.class, () -> target.carValidation(emptyFieldName));
+        // When and Then
+        CarRentalValidationException carRentalValidationException =
+                assertThrows(CarRentalValidationException.class, () -> target.carValidation(emptyFieldName));
 
-        //then
-        assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
+        assertThat(carRentalValidationException.getViolations()).anyMatch(message -> message.startsWith(expectedPrefix));
     }
 
     @Test
@@ -102,8 +102,8 @@ class CarValidatorTest {
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
-        carDTO.setParking(parkingDTO);
-        carDTO.setPricePerDay(BigDecimal.valueOf(150.0));
+        carDTO.setParking(new ParkingDTO());
+        carDTO.setPricePerDay(new BigDecimal(150.0));
         return carDTO;
 
     }

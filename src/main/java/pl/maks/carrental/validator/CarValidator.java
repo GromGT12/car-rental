@@ -1,9 +1,7 @@
 package pl.maks.carrental.validator;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.CarDTO;
-import pl.maks.carrental.controller.productDTO.ParkingDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
 import pl.maks.carrental.repository.CarRepository;
 
