@@ -18,82 +18,83 @@ import static org.mockito.Mockito.mock;
 class ContractValidatorTest {
     private final ContractRepository contractRepository = mock(ContractRepository.class);
     private final ContractValidator target = new ContractValidator(contractRepository);
-    protected final CarDTO carDTO = mock(CarDTO.class);
-    private final ClientDTO clientDTO = mock(ClientDTO.class);
+    protected final CarDTO carDTO = new CarDTO();
+    private final ClientDTO clientDTO = new ClientDTO();
 
     @Test
     @DisplayName("Validation Error should not be thrown when input contract is valid")
     void shouldNotThrow_whenContractIsValid() {
-        // Given
+        // given
         ContractDTO valid = validContract();
 
-        // When, Then
+        // when
         assertDoesNotThrow(() -> target.validateContract(valid));
     }
 
     @Test
     @DisplayName("Validation Error should be thrown when car ID is null")
     void shouldThrow_whenCarIdIsNull() {
-        // Given
+        // given
         ContractDTO carIdNull = CarIdNull();
         carIdNull.getCar().setId(null);
 
-        // When, Then
+        // when
         assertThrows(CarRentalValidationException.class, () -> target.validateContract(carIdNull));
     }
 
     @Test
     @DisplayName("Validation Error should be thrown when client ID is null")
     void shouldThrow_whenClientIdIsNull() {
-        // Given
+        // given
         ContractDTO clientIdNull = ClientIdNull();
         clientIdNull.getClient().setId(null);
 
-        // When, Then
+
+        // when
         assertThrows(CarRentalValidationException.class, () -> target.validateContract(clientIdNull));
     }
 
     @Test
     @DisplayName("Validation Error should be thrown when start date is null")
     void shouldThrow_whenStartDateIsNull() {
-        // Given
+        // given
         ContractDTO dateStart = DateStart();
         dateStart.setStartDate(null);
 
-        // When, Then
+        // when
         assertThrows(CarRentalValidationException.class, () -> target.validateContract(dateStart));
     }
 
     @Test
     @DisplayName("Validation Error should be thrown when end date is null")
     void shouldThrow_whenEndDateIsNull() {
-        // Given
+        // given
         ContractDTO endDate = EndDate();
         endDate.setEndDate(null);
 
-        // When, Then
+        // when
         assertThrows(CarRentalValidationException.class, () -> target.validateContract(endDate));
     }
 
     @Test
     @DisplayName("Validation Error should be thrown when price is null")
     void shouldThrow_whenPriceIsNull() {
-        // Given
+        // given
         ContractDTO priceIsNull = PriceIsNull();
         priceIsNull.setPrice(null);
 
-        // When, Then
+        // when
         assertThrows(CarRentalValidationException.class, () -> target.validateContract(priceIsNull));
     }
 
     @Test
     @DisplayName("Validation Error should be thrown when price is less than or equal to zero")
     void shouldThrow_whenPriceIsLessThanOrEqualToZero() {
-        // Given
+        // given
         ContractDTO priceEqualToZero = PriceEqualToZero();
         priceEqualToZero.setPrice(BigDecimal.valueOf(-10.0));
 
-        // When, Then
+        // when
         assertThrows(CarRentalValidationException.class, () -> target.validateContract(priceEqualToZero));
     }
     private ContractDTO validContract() {

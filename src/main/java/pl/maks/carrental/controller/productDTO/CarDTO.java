@@ -1,7 +1,5 @@
 package pl.maks.carrental.controller.productDTO;
 
-import pl.maks.carrental.repository.model.Client;
-
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -14,9 +12,6 @@ public class CarDTO {
     private String fuel;
     private BigDecimal pricePerDay;
     private ParkingDTO parking;
-
-    public CarDTO() {
-    }
 
     public Integer getId() {
         return id;

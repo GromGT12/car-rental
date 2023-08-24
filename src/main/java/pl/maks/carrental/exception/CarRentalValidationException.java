@@ -17,11 +17,10 @@ public class CarRentalValidationException extends RuntimeException {
 
     private String violationsToString(List<String> violations) {
         StringBuilder oneBigViolation = new StringBuilder("\nViolations:");
-        for (String violation : violations) {
-            oneBigViolation.append("\n").append(violation);
-        }
-        return oneBigViolation.toString();
+        String bigString = String.join("\n", violations);
+        return bigString.toString();
     }
+
     @Override
     public String toString() {
         return getMessage() + violationsToString(violations);

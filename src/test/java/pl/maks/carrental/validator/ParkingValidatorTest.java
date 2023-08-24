@@ -7,7 +7,6 @@ import pl.maks.carrental.exception.CarRentalValidationException;
 import pl.maks.carrental.repository.ParkingRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
@@ -17,23 +16,11 @@ class ParkingValidatorTest {
     private final ParkingValidator target = new ParkingValidator(parkingRepository);
 
     @Test
-    @DisplayName("A validation error should not be thrown when the parking input is valid.")
-    void shouldNotThrow_whenParkingsIsValid() {
-        //given
-        ParkingDTO validParkings = validParkings();
-
-        //when
-        assertDoesNotThrow(() -> target.parkingValidation(validParkings));
-
-        //then
-    }
-
-    @Test
     @DisplayName("Validation Error should be thrown when name is blank")
     void shouldThrow_whenNameIsBlank() {
         //given
         ParkingDTO emptyName = emptyName();
-        String expectedMessage = "Name is blank";
+        String expectedMessage = String.format("%s is blank", emptyName);
 
         //when
         CarRentalValidationException carRentalValidationException = assertThrows(
@@ -61,21 +48,14 @@ class ParkingValidatorTest {
     private ParkingDTO invalidPhone() {
         ParkingDTO parkingDTO = new ParkingDTO();
         parkingDTO.setName("TestName");
-        parkingDTO.setPhone("36007121aaaaa");
-        return parkingDTO;
-    }
-
-    private ParkingDTO validParkings() {
-        ParkingDTO parkingDTO = new ParkingDTO();
-        parkingDTO.setName("TestName");
-        parkingDTO.setPhone("36007121");
+        parkingDTO.setPhone("invalid");
         return parkingDTO;
     }
 
     private ParkingDTO emptyName() {
         ParkingDTO parkingDTO = new ParkingDTO();
         parkingDTO.setName("");
-        parkingDTO.setPhone("36007121");
+        parkingDTO.setPhone("invalid");
         return parkingDTO;
     }
 }

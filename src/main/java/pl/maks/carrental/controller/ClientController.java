@@ -33,7 +33,7 @@ public class ClientController {
 
     @Tag(name = "Creating a new client", description = "In case the client is not created, the response will have a status of 404")
     @PostMapping
-    public Integer CreateClient(@RequestBody @Valid ClientDTO clientToCreate) {
+    public Integer сreateClient(@RequestBody @Valid ClientDTO clientToCreate) {
         return clientService.createClient(clientToCreate);
     }
 

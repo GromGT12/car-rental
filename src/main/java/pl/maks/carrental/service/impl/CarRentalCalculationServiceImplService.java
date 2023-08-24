@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 public class CarRentalCalculationServiceImplService implements RentalPriceCalculatorService {
 
-    private final BigDecimal BASE_DAILY_RATE = BigDecimal.valueOf(150.0);
-    private final BigDecimal ACCIDENT_COEFFICIENT_1 = BigDecimal.valueOf(1.0);
-    private final BigDecimal ACCIDENT_COEFFICIENT_2 = BigDecimal.valueOf(1.2);
-    private final BigDecimal ACCIDENT_COEFFICIENT_3 = BigDecimal.valueOf(1.5);
+    private static final BigDecimal BASE_DAILY_RATE = BigDecimal.valueOf(150.0);
+    private static final BigDecimal ACCIDENT_COEFFICIENT_1 = BigDecimal.valueOf(1.0);
+    private static final BigDecimal ACCIDENT_COEFFICIENT_2 = BigDecimal.valueOf(1.2);
+    private static final BigDecimal ACCIDENT_COEFFICIENT_3 = BigDecimal.valueOf(1.5);
 
     private final ClientRepository clientRepository;
 

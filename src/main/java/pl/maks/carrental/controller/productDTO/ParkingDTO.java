@@ -1,10 +1,10 @@
 package pl.maks.carrental.controller.productDTO;
 
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class ParkingDTO {
+
     private Integer id;
 
     private String name;

@@ -16,10 +16,8 @@ import java.util.List;
 @Component
 public class ContractValidator {
 
-    private final ContractRepository contractRepository;
-
     public ContractValidator(ContractRepository contractRepository) {
-        this.contractRepository = contractRepository;
+
     }
 
     public void validateContract(ContractDTO contractDTO) {
@@ -31,7 +29,7 @@ public class ContractValidator {
         validatePrice(contractDTO.getPrice(), violations);
 
         if (!violations.isEmpty()) {
-            String violation = String.join(", ", violations);
+            String.join(", ", violations);
             throw new CarRentalValidationException("Provided contract is invalid: ", violations);
         }
     }

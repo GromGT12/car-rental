@@ -53,7 +53,7 @@ public class ClientValidator {
         }
     }
 
-    void validateDocumentNumber(ClientDTO clientDTO, List<String> violations) {
+    private void validateDocumentNumber(ClientDTO clientDTO, List<String> violations) {
         if (!DOCUMENTS_NUMBER.matcher(clientDTO.getDocumentNumber()).matches()) {
             violations.add(String.format("invalid documentsNumber: '%s'", clientDTO.getDocumentNumber()));
         }
