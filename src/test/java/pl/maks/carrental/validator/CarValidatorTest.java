@@ -17,8 +17,7 @@ import static org.mockito.Mockito.mock;
 class CarValidatorTest {
     private final CarRepository carRepository = mock(CarRepository.class);
     private final CarValidator target = new CarValidator(carRepository);
-    private final ParkingDTO parkingDTO = mock(ParkingDTO.class);
-    private final CarDTO carDTO = mock(CarDTO.class);
+    private final ParkingDTO parkingDTO = new ParkingDTO();
 
     @Test
     @DisplayName("Validation Error should not be thrown when input client is valid")
@@ -35,14 +34,14 @@ class CarValidatorTest {
     @Test
     @DisplayName("Validation Error should be thrown when FieldName is blank")
     void shouldThrow_whenFieldNameIsBlank() {
-        // Given
+        // given
         CarDTO emptyFieldName = emptyFieldName();
-        String expectedPrefix = "is blank"; // Префикс, который мы ожидаем
+        String expectedPrefix = "is blank";
 
-        // When and Then
+        // when
         CarRentalValidationException carRentalValidationException =
                 assertThrows(CarRentalValidationException.class, () -> target.carValidation(emptyFieldName));
-
+        //then
         assertThat(carRentalValidationException.getViolations()).anyMatch(message -> message.startsWith(expectedPrefix));
     }
 
@@ -79,7 +78,7 @@ class CarValidatorTest {
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
-        carDTO.setParking(new ParkingDTO());
+        carDTO.setParking(parkingDTO);
         carDTO.setPricePerDay(new BigDecimal(150.0));
         return carDTO;
     }
@@ -102,7 +101,7 @@ class CarValidatorTest {
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
-        carDTO.setParking(new ParkingDTO());
+        carDTO.setParking(parkingDTO);
         carDTO.setPricePerDay(new BigDecimal(150.0));
         return carDTO;
 
@@ -114,7 +113,7 @@ class CarValidatorTest {
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
-        carDTO.setParking(parkingDTO);
+        carDTO.setParking(new ParkingDTO());
         carDTO.setPricePerDay(new BigDecimal(0));
         return carDTO;
     }

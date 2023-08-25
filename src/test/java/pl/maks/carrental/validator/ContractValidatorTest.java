@@ -11,7 +11,6 @@ import pl.maks.carrental.repository.ContractRepository;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
@@ -22,14 +21,27 @@ class ContractValidatorTest {
     private final ClientDTO clientDTO = new ClientDTO();
 
     @Test
-    @DisplayName("Validation Error should not be thrown when input contract is valid")
-    void shouldNotThrow_whenContractIsValid() {
+    @DisplayName("Validation Error should be thrown when carId is null")
+    void shouldThrowValidationExceptionWhenCarIdIsNull() {
         // given
-        ContractDTO valid = validContract();
+        ContractDTO validContract = validContract();
+        validContract.getCar().setId(null);
 
         // when
-        assertDoesNotThrow(() -> target.validateContract(valid));
+        assertThrows(CarRentalValidationException.class, () -> target.validateContract(validContract));
     }
+
+    @Test
+    @DisplayName("Validation Error should be thrown when clientId is null")
+    void shouldThrowValidationExceptionWhenClientIdIsNull() {
+        // given
+        ContractDTO validContract = validContract();
+        validContract.getClient().setId(null);
+
+        // when
+        assertThrows(CarRentalValidationException.class, () -> target.validateContract(validContract));
+    }
+
 
     @Test
     @DisplayName("Validation Error should be thrown when car ID is null")
@@ -103,17 +115,17 @@ class ContractValidatorTest {
         dto.setClient(clientDTO);
         dto.setStartDate(Date.valueOf("2023-07-15"));
         dto.setEndDate(Date.valueOf("2023-07-16"));
-        dto.setPrice(new BigDecimal(150.0));
+        dto.setPrice(new BigDecimal("150.0"));
         return dto;
     }
 
     private ContractDTO CarIdNull() {
         ContractDTO dto = new ContractDTO();
-        dto.setCar(carDTO);
-        dto.setClient(clientDTO);
+        dto.setCar(new CarDTO());
+        dto.setClient(new ClientDTO());
         dto.setStartDate(Date.valueOf("2023-07-15"));
         dto.setEndDate(Date.valueOf("2023-07-16"));
-        dto.setPrice(new BigDecimal(150.0));
+        dto.setPrice(new BigDecimal("150.0"));
         return dto;
     }
 
@@ -123,7 +135,7 @@ class ContractValidatorTest {
         dto.setClient(clientDTO);
         dto.setStartDate(Date.valueOf("2023-07-15"));
         dto.setEndDate(Date.valueOf("2023-07-16"));
-        dto.setPrice(new BigDecimal(150.0));
+        dto.setPrice(new BigDecimal("150.0"));
         return dto;
     }
 
@@ -133,7 +145,7 @@ class ContractValidatorTest {
         dto.setClient(clientDTO);
         dto.setStartDate(Date.valueOf("2023-07-15"));
         dto.setEndDate(Date.valueOf("2023-07-16"));
-        dto.setPrice(new BigDecimal(150.0));
+        dto.setPrice(new BigDecimal("150.0"));
         return dto;
     }
 
@@ -143,7 +155,7 @@ class ContractValidatorTest {
         dto.setClient(clientDTO);
         dto.setStartDate(Date.valueOf("2023-07-15"));
         dto.setEndDate(Date.valueOf("2023-07-16"));
-        dto.setPrice(new BigDecimal(150.0));
+        dto.setPrice(new BigDecimal("150.0"));
         return dto;
     }
 
@@ -162,7 +174,7 @@ class ContractValidatorTest {
         dto.setClient(clientDTO);
         dto.setStartDate(Date.valueOf("2023-07-15"));
         dto.setEndDate(Date.valueOf("2023-07-16"));
-        dto.setPrice(new BigDecimal(-10.0));
+        dto.setPrice(BigDecimal.valueOf(-10.0));
         return dto;
     }
 }
