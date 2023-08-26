@@ -19,14 +19,11 @@ public class ParkingValidator {
     public ParkingValidator(ParkingRepository parkingRepository) {
     }
 
-
     public void parkingValidation(ParkingDTO parkingDTO) {
         List<String> violations = new ArrayList<>();
         validateLetterField(parkingDTO.getName(), "name", violations);
         validateLetterField(parkingDTO.getPhone(), "phone", violations);
         validatePhone(parkingDTO.getPhone(), violations);
-
-
 
     }
 
@@ -38,17 +35,6 @@ public class ParkingValidator {
             violations.add(String.format("%s can contain only letters: %s name", fieldName, value));
         }
     }
-
-    // private void validatePhone(ParkingDTO parkingDTO, List<String> violations) {
-    //   if (isBlank(parkingDTO.getPhone())) {
-    //violations.add("Phone is blank");
-    // }
-    //if (!PHONE_NUMBER.matcher(parkingDTO.getPhone()).matches()) {
-    //  violations.add(String.format("%s can contain only digits: '%s'", "phone", parkingDTO.getPhone()));
-    //}
-    //}
-//}
-
 
     private void validatePhone(String phoneNumber, List<String> violations) {
         if (isBlank(phoneNumber)) {

@@ -18,7 +18,8 @@ public class CarRentalValidationException extends RuntimeException {
     private String violationsToString(List<String> violations) {
         StringBuilder oneBigViolation = new StringBuilder("\nViolations:");
         String bigString = String.join("\n", violations);
-        return bigString.toString();
+        oneBigViolation.append(bigString);
+        return oneBigViolation.toString();
     }
 
     @Override

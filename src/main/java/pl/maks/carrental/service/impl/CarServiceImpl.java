@@ -59,7 +59,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarDTO updateCar(Integer id, CarDTO carToUpdate) {
         carValidator.carValidation(carToUpdate);
-        carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Car not found" + id));
+        carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CAR_NOT_FOUND_MESSAGE + id));
         Car entityToUpdate = carConverter.convertToEntity(carToUpdate);
         entityToUpdate.setId(id);
         Car updateEntity = carRepository.save(entityToUpdate);

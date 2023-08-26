@@ -29,6 +29,7 @@ public class ClientValidator {
         validateLetterField(clientDTO.getLastName(), "lastName", violations);
         validateAccidents(clientDTO, violations);
         validateDocumentNumber(clientDTO, violations);
+        validateLastName(clientDTO, violations);
 
         if (!violations.isEmpty()) {
             throw new CarRentalValidationException("Provide Client is invalid:", violations);

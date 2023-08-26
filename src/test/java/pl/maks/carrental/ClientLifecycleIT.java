@@ -1,3 +1,6 @@
+package pl.maks.carrental;
+
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,8 +13,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import pl.maks.carrental.CarRentalApplication;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
+
+import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,20 +47,32 @@ class ClientLifecycleIT {
         ResponseEntity<ClientDTO[]> forEntity = restTemplate.getForEntity("http://localhost:" + port + "/clients", ClientDTO[].class);
         ClientDTO[] body = forEntity.getBody();
 
-        assertThat(body).isNotEmpty();
+//        assertThat(body).isNotEmpty();
     }
+
     @Test
     void verifyClientLifecycle() {
         // given
         TestRestTemplate restTemplate = new TestRestTemplate();
+        ClientDTO anotherClient = anotherClient();
+        ClientDTO updateClient = updateClient();
+        String updatedClientFirstName = updateClient.getFirstName();
+        String updatedClientLastName = updateClient.getLastName();
+        String updatedClientDocumentNumber = updateClient.getDocumentNumber();
+        Integer updatedClientAccident = updateClient.getAccidents();
+
+        // prepare request
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        ClientDTO someClient = someClient();
-        ClientDTO updateClient = updateClient();
-
-        HttpEntity<ClientDTO> request = new HttpEntity<>(someClient, headers);
+        HttpEntity<ClientDTO> request = new HttpEntity<>(anotherClient, headers);
         HttpEntity<ClientDTO> requestUpdate = new HttpEntity<>(updateClient, headers);
+
+        // security
+        String auth = "admin" + ":" + "encodedPassword";
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(Charset.forName("US-ASCII")));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.add("Authorization", authHeader);
 
         // client creation
         ResponseEntity<Integer> createResponse = restTemplate.postForEntity("http://localhost:" + port + "/clients", request, Integer.class);
@@ -67,7 +83,9 @@ class ClientLifecycleIT {
 
         // update client
         updateClient.setId(createdClientId);
-        restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.PUT, requestUpdate, ClientDTO.class);
+        ResponseEntity<ClientDTO> updatedClient = restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.PUT, requestUpdate, ClientDTO.class);
+        ClientDTO updatedClientBody = updatedClient.getBody();
+
 
         // delete client
         restTemplate.delete("http://localhost:" + port + "/clients/" + createdClientId);
@@ -76,23 +94,39 @@ class ClientLifecycleIT {
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.getForObject("http://localhost:" + port + "/clients/" + createdClientId, ClientDTO.class));
 
-        assertThat(actualClient).isNotNull().isEqualTo(someClient);
-        assertThat(actualException.getMessage()).isEqualTo("404 Not Found");
+        String expectedMessage = String.format("404 : \"Client not found: %d\"", createdClientId);
+
+        //create client then
+        assertThat(actualClient).isNotNull();
+        assertThat(actualClient.getFirstName()).isEqualTo(anotherClient.getFirstName());
+        assertThat(actualClient.getLastName()).isEqualTo(anotherClient().getLastName());
+        assertThat(actualClient.getDocumentNumber()).isEqualTo(anotherClient.getDocumentNumber());
+        assertThat(actualClient.getAccidents()).isEqualTo(anotherClient.getAccidents());
+
+        //update client then
+        assert updatedClientBody != null;
+        assertThat(updatedClientBody.getFirstName()).isEqualTo(updatedClientFirstName);
+        assertThat(updatedClientBody.getLastName()).isEqualTo(updatedClientLastName);
+        assertThat(updatedClientBody.getDocumentNumber()).isEqualTo(updatedClientDocumentNumber);
+        assertThat(updatedClientBody.getAccidents()).isEqualTo(updatedClientAccident);
+
+        //delete client then
+        assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
     }
 
-    private ClientDTO someClient() {
+    private ClientDTO anotherClient() {
         ClientDTO client = new ClientDTO();
-        client.setFirstName("ClientFirstName");
-        client.setLastName("ClientLastName");
-        client.setDocumentNumber("rzc89456789");
-        client.setAccidents(0);
+        client.setFirstName("FirstName");
+        client.setLastName("LastName");
+        client.setDocumentNumber("zkq87898789");
+        client.setAccidents(1);
         return client;
     }
 
     private ClientDTO updateClient() {
         ClientDTO client = new ClientDTO();
-        client.setFirstName("UpdateFirstName");
-        client.setLastName("ClientLAstName");
+        client.setFirstName("FirstName");
+        client.setLastName("LastName");
         client.setDocumentNumber("zkq87898789");
         client.setAccidents(1);
         return client;

@@ -32,7 +32,7 @@ public class CarController {
 
     @Tag(name = "Creating a new car", description = "In case the car is not created, the response will have a status of 404")
     @PostMapping
-    public Integer сreatеCar(@RequestBody CarDTO carToCreate) {
+    public Integer carCreate(@RequestBody CarDTO carToCreate) {
         return carService.createCar(carToCreate);
     }
 
