@@ -6,10 +6,8 @@ import java.util.Objects;
 public class ClientDTO implements Serializable {
 
     private Integer id;
-
     private String firstName;
     private String lastName;
-
     private String documentNumber;
     private Integer accidents;
 

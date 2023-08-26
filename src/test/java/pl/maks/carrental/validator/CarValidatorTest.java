@@ -5,19 +5,13 @@ import org.junit.jupiter.api.Test;
 import pl.maks.carrental.controller.productDTO.CarDTO;
 import pl.maks.carrental.controller.productDTO.ParkingDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
-import pl.maks.carrental.repository.CarRepository;
-
 import java.math.BigDecimal;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 
 class CarValidatorTest {
-    private final CarRepository carRepository = mock(CarRepository.class);
-    private final CarValidator target = new CarValidator(carRepository);
-    private final ParkingDTO parkingDTO = new ParkingDTO();
+    private final CarValidator target = new CarValidator();
 
     @Test
     @DisplayName("Validation Error should not be thrown when input client is valid")
@@ -32,11 +26,11 @@ class CarValidatorTest {
     }
 
     @Test
-    @DisplayName("Validation Error should be thrown when FieldName is blank")
+    @DisplayName("Validation Error should be thrown brand is blank")
     void shouldThrow_whenFieldNameIsBlank() {
         // given
         CarDTO emptyFieldName = emptyFieldName();
-        String expectedPrefix = "is blank";
+        String expectedPrefix = "Brand is blank";
 
         // when
         CarRentalValidationException carRentalValidationException =
@@ -60,7 +54,7 @@ class CarValidatorTest {
     }
 
     @Test
-    @DisplayName("Должно выбрасываться исключение при нулевом идентификаторе парковки")
+    @DisplayName(" It should throw an exception when the parking ID is zero")
     void shouldThrow_whenParkingIdIsNull() {
         // given
         CarDTO nullParkingId = nullParkingId();
@@ -78,7 +72,7 @@ class CarValidatorTest {
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
-        carDTO.setParking(parkingDTO);
+        carDTO.setParking(new ParkingDTO());
         carDTO.setPricePerDay(new BigDecimal(150.0));
         return carDTO;
     }
@@ -90,6 +84,8 @@ class CarValidatorTest {
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
+        ParkingDTO parkingDTO = new ParkingDTO();
+        parkingDTO.setId(11);
         carDTO.setParking(parkingDTO);
         carDTO.setPricePerDay(BigDecimal.valueOf(150.0));
         return carDTO;
@@ -97,10 +93,11 @@ class CarValidatorTest {
 
     private CarDTO emptyFieldName() {
         CarDTO carDTO = new CarDTO();
-        carDTO.setBrand("TestBrand");
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
+        ParkingDTO parkingDTO = new ParkingDTO();
+        parkingDTO.setId(11);
         carDTO.setParking(parkingDTO);
         carDTO.setPricePerDay(new BigDecimal(150.0));
         return carDTO;
@@ -113,7 +110,9 @@ class CarValidatorTest {
         carDTO.setCarClass("TestCarClass");
         carDTO.setFuel("TestFuel");
         carDTO.setModel("TestModel");
-        carDTO.setParking(new ParkingDTO());
+        ParkingDTO parkingDTO = new ParkingDTO();
+        parkingDTO.setId(11);
+        carDTO.setParking(parkingDTO);
         carDTO.setPricePerDay(new BigDecimal(0));
         return carDTO;
     }

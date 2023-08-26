@@ -68,10 +68,6 @@ public class ClientValidator {
         if (clientDTO.getAccidents() == null) {
             violations.add("Accidents count can't be null");
         }
-
-        if (!violations.isEmpty()) {
-            throw new CarRentalValidationException("Provide Client is invalid:", violations);
-        }
     }
 }
 

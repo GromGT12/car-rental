@@ -27,6 +27,9 @@ public class Parking {
         this.phone = phone;
     }
 
+    public Parking(Integer parkingId) {
+    }
+
     public Integer getId() {
         return id;
     }

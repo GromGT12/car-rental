@@ -4,27 +4,25 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.maks.carrental.controller.productDTO.ParkingDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
-import pl.maks.carrental.repository.ParkingRepository;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
+
 
 class ParkingValidatorTest {
 
-    private final ParkingRepository parkingRepository = mock(ParkingRepository.class);
-    private final ParkingValidator target = new ParkingValidator(parkingRepository);
+    private final ParkingValidator target = new ParkingValidator();
 
     @Test
     @DisplayName("Validation Error should be thrown when name is blank")
     void shouldThrow_whenNameIsBlank() {
         //given
-        ParkingDTO emptyName = emptyName();
-        String expectedMessage = String.format("%s is blank", emptyName);
+        ParkingDTO emptyNameParking = emptyName();
+        String expectedMessage = String.format("%s is blank", "name");
+
 
         //when
         CarRentalValidationException carRentalValidationException = assertThrows(
-                CarRentalValidationException.class, () -> target.parkingValidation(emptyName));
+                CarRentalValidationException.class, () -> target.parkingValidation(emptyNameParking));
 
         //then
         assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
@@ -35,7 +33,7 @@ class ParkingValidatorTest {
     void shouldThrow_whenPhoneIsInvalid() {
         //given
         ParkingDTO invalidPhone = invalidPhone();
-        String expectedMessage = String.format("Phone can contain only digits: '%s'", invalidPhone.getPhone());
+        String expectedMessage = String.format("phone can contain only digits: '%s'", invalidPhone.getPhone());
 
         //when
         CarRentalValidationException carRentalValidationException = assertThrows(
@@ -55,7 +53,7 @@ class ParkingValidatorTest {
     private ParkingDTO emptyName() {
         ParkingDTO parkingDTO = new ParkingDTO();
         parkingDTO.setName("");
-        parkingDTO.setPhone("invalid");
+        parkingDTO.setPhone("5553355");
         return parkingDTO;
     }
 }

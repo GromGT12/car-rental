@@ -6,17 +6,13 @@ import pl.maks.carrental.controller.productDTO.CarDTO;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.controller.productDTO.ContractDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
-import pl.maks.carrental.repository.ContractRepository;
-
 import java.math.BigDecimal;
 import java.sql.Date;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
+
 
 class ContractValidatorTest {
-    private final ContractRepository contractRepository = mock(ContractRepository.class);
-    private final ContractValidator target = new ContractValidator(contractRepository);
+    private final ContractValidator target = new ContractValidator();
     protected final CarDTO carDTO = new CarDTO();
     private final ClientDTO clientDTO = new ClientDTO();
 
@@ -41,7 +37,6 @@ class ContractValidatorTest {
         // when
         assertThrows(CarRentalValidationException.class, () -> target.validateContract(validContract));
     }
-
 
     @Test
     @DisplayName("Validation Error should be thrown when car ID is null")

@@ -24,6 +24,9 @@ public class Contract {
     @Column(name = "price")
     private BigDecimal price;
 
+    public Contract() {
+    }
+
     public Integer getId() {
         return id;
     }

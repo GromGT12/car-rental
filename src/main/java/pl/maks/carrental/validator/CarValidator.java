@@ -3,7 +3,7 @@ package pl.maks.carrental.validator;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.CarDTO;
 import pl.maks.carrental.controller.productDTO.ParkingDTO;
-import pl.maks.carrental.repository.CarRepository;
+import pl.maks.carrental.exception.CarRentalValidationException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,11 +16,6 @@ import static org.hibernate.internal.util.StringHelper.isBlank;
 public class CarValidator {
 
     private static final Pattern ONLY_LETTERS = Pattern.compile("^[a-zA-Z]*$");
-    private final CarRepository carRepository;
-
-    public CarValidator(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
 
     public void carValidation(CarDTO carDTO) {
         List<String> violations = new ArrayList<>();
@@ -33,15 +28,14 @@ public class CarValidator {
         validateParking(carDTO.getParking(), violations);
 
         if (!violations.isEmpty()) {
-            String violation = String.join(", ", violations);
+            throw new CarRentalValidationException("Provide Car is invalid:", violations);
         }
     }
 
     private void validateLetterField(String value, String fieldName, List<String> violations) {
         if (isBlank(value)) {
             violations.add(fieldName + " is blank");
-        }
-        if (!ONLY_LETTERS.matcher(value).matches()) {
+        } else if (!ONLY_LETTERS.matcher(value).matches()) {
             violations.add(fieldName + " can contain only letters: " + value);
         }
     }
@@ -58,5 +52,4 @@ public class CarValidator {
         }
     }
 }
-
 

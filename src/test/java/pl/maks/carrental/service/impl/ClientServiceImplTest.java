@@ -17,7 +17,6 @@ class ClientServiceImplTest {
     private final ClientRepository clientRepository = mock(ClientRepository.class);
     private final ClientConverter clientConverter = mock(ClientConverter.class);
     private final ClientValidator clientValidator = mock(ClientValidator.class);
-
     private final ClientService target = new ClientServiceImpl(clientRepository, clientConverter, clientValidator);
 
     @Test
@@ -25,7 +24,7 @@ class ClientServiceImplTest {
         //given
         ClientDTO clientDTO = new ClientDTO();
         Client clientToSave = new Client();
-        Client savedClient = new Client(77);
+        Client savedClient = new Client();
 
         when(clientConverter.convertToEntity(clientDTO)).thenReturn(clientToSave);
         when(clientRepository.save(clientToSave)).thenReturn(savedClient);
@@ -53,11 +52,11 @@ class ClientServiceImplTest {
         when(clientConverter.convertToDto(updatedClient)).thenReturn(updatedClientDTO);
 
         // when
-        ClientDTO actualClientDTO = target.updateClient(11 ,updatedClientDTO);
+        ClientDTO actualClientDTO = target.updateClient(76 ,updatedClientDTO);
 
         // then
         verify(clientValidator).validateClient(updatedClientDTO);
-        verify(clientRepository).findById(11);
+        verify(clientRepository).findById(76);
         verify(clientConverter).convertToEntity(updatedClientDTO);
         verify(clientConverter).convertToDto(updatedClient);
 
@@ -67,7 +66,7 @@ class ClientServiceImplTest {
     @Test
     void shouldGetClientById() {
         // given
-        Integer clientId = 25;
+        Integer clientId = 3;
         Client clientToReturn = new Client(clientId);
         ClientDTO saveClientDTO = new ClientDTO();
 
@@ -87,7 +86,7 @@ class ClientServiceImplTest {
     @Test
     void shouldGetAllClients() {
         // given
-        List<Client> clients = Arrays.asList(new Client(22), new Client(33));
+        List<Client> clients = Arrays.asList(new Client(66), new Client(44));
         List<ClientDTO> saveClientDTOs = Arrays.asList(new ClientDTO(), new ClientDTO());
 
         when(clientRepository.findAll()).thenReturn(clients);
