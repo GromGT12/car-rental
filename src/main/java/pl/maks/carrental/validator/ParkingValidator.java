@@ -2,6 +2,7 @@ package pl.maks.carrental.validator;
 
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.ParkingDTO;
+import pl.maks.carrental.repository.ClientRepository;
 import pl.maks.carrental.repository.ParkingRepository;
 
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ public class ParkingValidator {
     private static final Pattern PHONE_NUMBER = Pattern.compile("^(?:\\+?\\d{1,4}\\s?)?(?:\\(\\d{1,4}\\)\\s?)?(?:[-.\\s]?\\d{1,5}){1,6}$");
 
     public ParkingValidator(ParkingRepository parkingRepository) {
-    }
+
+        }
+
 
     public void parkingValidation(ParkingDTO parkingDTO) {
         List<String> violations = new ArrayList<>();

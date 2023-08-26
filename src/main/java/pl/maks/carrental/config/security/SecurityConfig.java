@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .build();
         UserDetails admin = users
                 .username("admin")
-                .password("encodedPassword")
+                .password("adminPassword")
                 .roles(ADMIN, CLIENT)
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
