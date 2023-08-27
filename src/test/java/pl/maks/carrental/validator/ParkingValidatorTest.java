@@ -16,13 +16,13 @@ class ParkingValidatorTest {
     @DisplayName("Validation Error should be thrown when name is blank")
     void shouldThrow_whenNameIsBlank() {
         //given
-        ParkingDTO emptyNameParking = emptyName();
+        ParkingDTO emptyName = emptyName();
         String expectedMessage = String.format("%s is blank", "name");
 
 
         //when
         CarRentalValidationException carRentalValidationException = assertThrows(
-                CarRentalValidationException.class, () -> target.parkingValidation(emptyNameParking));
+                CarRentalValidationException.class, () -> target.parkingValidation(emptyName));
 
         //then
         assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
