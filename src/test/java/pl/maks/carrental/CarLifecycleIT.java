@@ -9,13 +9,16 @@ import org.springframework.http.*;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.maks.carrental.controller.productDTO.CarDTO;
+import pl.maks.carrental.controller.productDTO.ParkingDTO;
 
 import java.nio.charset.Charset;
 import java.math.BigDecimal;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -41,7 +44,7 @@ class CarLifecycleIT {
     @Test
     void verifyCarLifecycle() {
         // given
-        TestRestTemplate restTemplate = new TestRestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
         CarDTO anotherCar = anotherCar();
         CarDTO updateCar = updateCar();
         String updatedCarBrand = updateCar.getBrand();
@@ -80,7 +83,7 @@ class CarLifecycleIT {
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.exchange("http://localhost:" + port + "/cars/" + createdCarId, HttpMethod.GET, request, CarDTO.class));
 
-        String expectedMessage = String.format("404 : \"Car not found: %d\"", createdCarId);
+        String expectedMessage = String.format("404 : \"Car not found%d\"", createdCarId);
 
         //create car then
         CarDTO actualCar = actualCarForEntity.getBody();
@@ -105,17 +108,27 @@ class CarLifecycleIT {
         car.setModel("Camry");
         car.setCarClass("Business");
         car.setFuel("Gasoline");
-        car.setPricePerDay(BigDecimal.valueOf(150.0));
+        car.setPricePerDay(new BigDecimal("150"));
+
+        ParkingDTO parkingDTO = new ParkingDTO();
+        parkingDTO.setId(1);
+        car.setParking(parkingDTO);
+
         return car;
     }
 
     private CarDTO updateCar() {
         CarDTO car = new CarDTO();
         car.setBrand("Lexus");
-        car.setModel("RX 450h");
-        car.setCarClass("Premium ");
+        car.setModel("RX");
+        car.setCarClass("Premium");
         car.setFuel("Hybrid");
-        car.setPricePerDay(BigDecimal.valueOf(160.0));
+        car.setPricePerDay(new BigDecimal("160"));
+
+        ParkingDTO parkingDTO = new ParkingDTO();
+        parkingDTO.setId(2);
+        car.setParking(parkingDTO);
+
         return car;
     }
 }

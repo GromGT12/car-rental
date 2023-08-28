@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -43,7 +44,7 @@ class ClientLifecycleIT {
     @Test
     void verifyClientLifecycle() {
         // given
-        TestRestTemplate restTemplate = new TestRestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
         ClientDTO anotherClient = anotherClient();
         ClientDTO updateClient = updateClient();
         String updatedClientFirstName = updateClient.getFirstName();
@@ -84,7 +85,7 @@ class ClientLifecycleIT {
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.GET, request, ClientDTO.class));
 
-        String expectedMessage = String.format("404 : \"Client not found: %d\"", createdClientId);
+        String expectedMessage = String.format("404 : \"Client not found%d\"", createdClientId);
 
         //create client then
         ClientDTO actualClient = actualClientForEntity.getBody();
