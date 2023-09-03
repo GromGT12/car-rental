@@ -5,3 +5,4 @@ import pl.maks.carrental.repository.model.Contract;
 
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
 }
+
