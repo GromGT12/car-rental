@@ -6,7 +6,6 @@ import pl.maks.carrental.repository.model.Car;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CarConverter {
@@ -23,7 +22,7 @@ public class CarConverter {
     public List<CarDTO> convertToDto(Collection<Car> source) {
         return source.stream()
                 .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Car convertToEntity(CarDTO source) {

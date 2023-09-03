@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 public class CarRentalCalculationServiceImplService implements RentalPriceCalculatorService {
 
-    private final BigDecimal BASE_DAILY_RATE = BigDecimal.valueOf(150.0);
-    private final BigDecimal ACCIDENT_COEFFICIENT_1 = BigDecimal.valueOf(1.0);
-    private final BigDecimal ACCIDENT_COEFFICIENT_2 = BigDecimal.valueOf(1.2);
-    private final BigDecimal ACCIDENT_COEFFICIENT_3 = BigDecimal.valueOf(1.5);
+    private static final BigDecimal BASE_DAILY_RATE = BigDecimal.valueOf(150.0);
+    private static final BigDecimal ACCIDENT_COEFFICIENT_1 = BigDecimal.valueOf(1.0);
+    private static final BigDecimal ACCIDENT_COEFFICIENT_2 = BigDecimal.valueOf(1.2);
+    private static final BigDecimal ACCIDENT_COEFFICIENT_3 = BigDecimal.valueOf(1.5);
 
     private final ClientRepository clientRepository;
 
@@ -27,10 +27,11 @@ public class CarRentalCalculationServiceImplService implements RentalPriceCalcul
     @Override
     public BigDecimal calculateRentalPrice(Integer client, Integer car, Integer days) {
         int accidents = getAccidents(client);
-        int MAX_ACCIDENTS = 20;
-        if (accidents >= MAX_ACCIDENTS) {
-            List<String> violationMessage = Collections.singletonList("Client has 20 accidents and can't rent a car in our service");
+        int maxAccident = 20;
+        if (accidents >= maxAccident) {
+            List<String> violationMessage = Collections.singletonList("Client has " + accidents + " accidents and can't rent a car in our service");
             throw new CarRentalValidationException("Validation failed", violationMessage);
+
         }
 
         BigDecimal coefficient = getAccidentCoefficient(accidents);
@@ -38,7 +39,7 @@ public class CarRentalCalculationServiceImplService implements RentalPriceCalcul
     }
 
     private int getAccidents(Integer clientId) {
-        Client clientDTO = clientRepository.getById(clientId);
+        Client clientDTO = clientRepository.getReferenceById(clientId);
         return clientDTO.getAccidents();
     }
 

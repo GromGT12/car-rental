@@ -1,10 +1,11 @@
 package pl.maks.carrental.validator;
 
-import jakarta.validation.ValidationException;
+
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.CarDTO;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.controller.productDTO.ContractDTO;
+import pl.maks.carrental.exception.CarRentalValidationException;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Component
 public class ContractValidator {
+
     public void validateContract(ContractDTO contractDTO) {
         List<String> violations = new ArrayList<>();
         validateCar(contractDTO.getCar(), violations);
@@ -22,8 +24,7 @@ public class ContractValidator {
         validatePrice(contractDTO.getPrice(), violations);
 
         if (!violations.isEmpty()) {
-            String violationMessage = String.join(", ", violations);
-            throw new ValidationException("Provided contract is invalid: " + violationMessage);
+            throw new CarRentalValidationException("Provided contract is invalid: ", violations);
         }
     }
 

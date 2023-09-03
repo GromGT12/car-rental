@@ -29,6 +29,7 @@ public class ClientValidator {
         validateLetterField(clientDTO.getLastName(), "lastName", violations);
         validateAccidents(clientDTO, violations);
         validateDocumentNumber(clientDTO, violations);
+        validateLastName(clientDTO, violations);
 
         if (!violations.isEmpty()) {
             throw new CarRentalValidationException("Provide Client is invalid:", violations);
@@ -63,18 +64,9 @@ public class ClientValidator {
         }
     }
 
-    /*
-       private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
-        if ((clientDTO.getAccidents()) == null) {
-            violations.add(String.format("%s can contain not null: %s accident", clientDTO.getLastName()));
-     */
     private void validateAccidents(ClientDTO clientDTO, List<String> violations) {
         if (clientDTO.getAccidents() == null) {
             violations.add("Accidents count can't be null");
-        }
-
-        if (!violations.isEmpty()) {
-            throw new CarRentalValidationException("Provide Client is invalid:", violations);
         }
     }
 }

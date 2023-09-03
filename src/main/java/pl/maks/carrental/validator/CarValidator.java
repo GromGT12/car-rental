@@ -1,8 +1,9 @@
 package pl.maks.carrental.validator;
 
-import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.CarDTO;
+import pl.maks.carrental.controller.productDTO.ParkingDTO;
+import pl.maks.carrental.exception.CarRentalValidationException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,18 +25,17 @@ public class CarValidator {
         validateLetterField(carDTO.getCarClass(), "CarClass", violations);
         validateLetterField(carDTO.getFuel(), "Fuel", violations);
         validatePrice(carDTO.getPricePerDay(), "PricePerDay", violations);
+        validateParking(carDTO.getParking(), violations);
 
         if (!violations.isEmpty()) {
-            String violationMessage = String.join(", ", violations);
-            throw new ValidationException("Provided car details are invalid: " + violationMessage);
+            throw new CarRentalValidationException("Provide Car is invalid:", violations);
         }
     }
 
     private void validateLetterField(String value, String fieldName, List<String> violations) {
         if (isBlank(value)) {
             violations.add(fieldName + " is blank");
-        }
-        if (!ONLY_LETTERS.matcher(value).matches()) {
+        } else if (!ONLY_LETTERS.matcher(value).matches()) {
             violations.add(fieldName + " can contain only letters: " + value);
         }
     }
@@ -46,11 +46,10 @@ public class CarValidator {
         }
     }
 
-    private void validateParking(CarDTO carDTO, List<String> violations) {
-        if (carDTO == null || carDTO.getId() == null) {
+    private void validateParking(ParkingDTO parkingDTO, List<String> violations) {
+        if (parkingDTO == null || parkingDTO.getId() == null) {
             violations.add("Parking id is null");
         }
     }
 }
-
 

@@ -19,6 +19,7 @@ public class CarServiceImpl implements CarService {
     private final CarConverter carConverter;
     private final CarRepository carRepository;
     private final CarValidator carValidator;
+    private static final String CAR_NOT_FOUND_MESSAGE = "Car not found";
 
     public CarServiceImpl(CarConverter carConverter, CarRepository carRepository, CarValidator carValidator) {
         this.carConverter = carConverter;
@@ -34,7 +35,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDTO getById(Integer id) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Car not found" + id));
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CAR_NOT_FOUND_MESSAGE + id));
         return carConverter.convertToDto(car);
     }
 
@@ -50,7 +51,7 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional
     public void deleteById(Integer id) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Car not found" + id));
+        Car car = carRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(CAR_NOT_FOUND_MESSAGE + id));
         carRepository.delete(car);
 
     }
@@ -58,7 +59,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarDTO updateCar(Integer id, CarDTO carToUpdate) {
         carValidator.carValidation(carToUpdate);
-        Car car = carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Car not found" + id));
+        carRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CAR_NOT_FOUND_MESSAGE + id));
         Car entityToUpdate = carConverter.convertToEntity(carToUpdate);
         entityToUpdate.setId(id);
         Car updateEntity = carRepository.save(entityToUpdate);

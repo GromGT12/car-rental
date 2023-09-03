@@ -19,6 +19,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ClientConverter clientConverter;
     private final ClientValidator clientValidator;
+    private static final String CLIENT_NOT_FOUND_MESSAGE = "Client not found";
 
 
     public ClientServiceImpl(ClientRepository clientRepository, ClientConverter clientConverter, ClientValidator clientValidator) {
@@ -35,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO getById(Integer id) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CLIENT_NOT_FOUND_MESSAGE + id));
         return clientConverter.convertToDto(client);
     }
 
@@ -51,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void deleteById(Integer id) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CLIENT_NOT_FOUND_MESSAGE + id));
         clientRepository.delete(client);
 
     }
@@ -60,7 +61,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
         clientValidator.validateClient(clientToUpdate);
-        Client client = clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Client not found" + id));
+        clientRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CLIENT_NOT_FOUND_MESSAGE + id));
         Client entityToUpdate = clientConverter.convertToEntity(clientToUpdate);
         entityToUpdate.setId(id);
         Client updateEntity = clientRepository.save(entityToUpdate);

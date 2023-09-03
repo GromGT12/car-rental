@@ -31,7 +31,7 @@ public class ContractController {
 
     @Tag(name = "Creating a new contract", description = "In case the contract is not created, the response will have a status of 404")
     @PostMapping
-    public Integer CreateContract(@RequestBody ContractDTO contractToCreate) {
+    public Integer createContract(@RequestBody ContractDTO contractToCreate) {
         return contractService.createContract(contractToCreate);
     }
 

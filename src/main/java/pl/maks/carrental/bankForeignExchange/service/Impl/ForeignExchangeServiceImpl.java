@@ -11,7 +11,6 @@ import pl.maks.carrental.exception.CarRentalNotFoundException;
 import java.util.Arrays;
 import java.util.Optional;
 
-
 @Service
 public class ForeignExchangeServiceImpl implements ForeignExchangeService {
     private static final String FOREIGN_EXCHANGE = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
