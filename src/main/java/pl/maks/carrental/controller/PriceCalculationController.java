@@ -1,7 +1,6 @@
 package pl.maks.carrental.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,6 @@ public class PriceCalculationController {
     private final RentalPriceCalculatorService rentalPriceCalculatorService;
     private final CurrencyService currencyService;
 
-    @Autowired
     public PriceCalculationController(RentalPriceCalculatorService rentalPriceCalculatorService, CurrencyService currencyService) {
         this.rentalPriceCalculatorService = rentalPriceCalculatorService;
         this.currencyService = currencyService;

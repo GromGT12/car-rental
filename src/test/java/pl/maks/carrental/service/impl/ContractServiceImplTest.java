@@ -2,7 +2,7 @@ package pl.maks.carrental.service.impl;
 
 import org.junit.jupiter.api.Test;
 import pl.maks.carrental.controller.productDTO.ContractDTO;
-import pl.maks.carrental.convertor.ContractConverter;
+import pl.maks.carrental.converter.ContractConverter;
 import pl.maks.carrental.repository.ContractRepository;
 import pl.maks.carrental.repository.model.Contract;
 import pl.maks.carrental.service.ContractService;

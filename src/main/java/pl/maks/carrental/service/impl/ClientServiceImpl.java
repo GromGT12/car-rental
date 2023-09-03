@@ -3,7 +3,7 @@ package pl.maks.carrental.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
-import pl.maks.carrental.convertor.ClientConverter;
+import pl.maks.carrental.converter.ClientConverter;
 import pl.maks.carrental.exception.CarRentalNotFoundException;
 import pl.maks.carrental.repository.ClientRepository;
 import pl.maks.carrental.repository.model.Client;
@@ -19,7 +19,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ClientConverter clientConverter;
     private final ClientValidator clientValidator;
-    private static final String CLIENT_NOT_FOUND_MESSAGE = "Client not found";
+    private static final String CLIENT_NOT_FOUND_MESSAGE = "Client not found: ";
 
 
     public ClientServiceImpl(ClientRepository clientRepository, ClientConverter clientConverter, ClientValidator clientValidator) {

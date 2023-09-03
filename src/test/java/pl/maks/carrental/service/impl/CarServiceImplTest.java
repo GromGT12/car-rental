@@ -1,7 +1,7 @@
 package pl.maks.carrental.service.impl;
 import org.junit.jupiter.api.Test;
 import pl.maks.carrental.controller.productDTO.CarDTO;
-import pl.maks.carrental.convertor.CarConverter;
+import pl.maks.carrental.converter.CarConverter;
 import pl.maks.carrental.repository.CarRepository;
 import pl.maks.carrental.repository.model.Car;
 import pl.maks.carrental.service.CarService;

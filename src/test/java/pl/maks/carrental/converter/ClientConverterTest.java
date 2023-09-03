@@ -1,4 +1,4 @@
-package pl.maks.carrental.convertor;
+package pl.maks.carrental.converter;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

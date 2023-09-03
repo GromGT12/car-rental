@@ -1,4 +1,4 @@
-package pl.maks.carrental.config.exceptionhandling;
+package pl.maks.carrental.config.exceptionHandling;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,10 +17,12 @@ public class CarRentalExceptionHandler {
     public ResponseEntity<String> handleNotFoundException(CarRentalNotFoundException exception) {
         return ResponseEntity.status(NOT_FOUND).body(exception.getMessage());
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
     }
+
     @ExceptionHandler(CarRentalValidationException.class)
     public ResponseEntity<String> handleValidationException(CarRentalValidationException e) {
         return ResponseEntity.status(BAD_REQUEST).body(e.toString());

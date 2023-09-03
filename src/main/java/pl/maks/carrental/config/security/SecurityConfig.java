@@ -16,8 +16,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    public static final String ADMIN = "ADMIN";
-    public static final String CLIENT = "CLIENT";
+    private static final String ADMIN = "ADMIN";
+    private static final String CLIENT = "CLIENT";
 
     @Bean
     public InMemoryUserDetailsManager users() {
@@ -40,7 +40,7 @@ public class SecurityConfig {
         return http
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authz -> authz
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/cars/", "/parkings/").hasRole(CLIENT)
                         .requestMatchers(HttpMethod.POST, "/clients/", "/cars/", "/parkings/", "/contracts/").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.PUT, "/clients/", "/contracts/").hasRole(ADMIN)

@@ -1,4 +1,4 @@
-package pl.maks.carrental.convertor;
+package pl.maks.carrental.converter;
 
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.ContractDTO;

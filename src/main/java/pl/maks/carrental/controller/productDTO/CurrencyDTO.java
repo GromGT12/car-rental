@@ -1,7 +1,8 @@
 package pl.maks.carrental.controller.productDTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class CurrencyDTO {
 
@@ -9,16 +10,8 @@ public class CurrencyDTO {
     private String txt;
     private BigDecimal rate;
     private String cc;
-    private Date exchangeDate;
-
-    public CurrencyDTO(Integer r030, String txt, BigDecimal rate, String cc, Date exchangeDate) {
-        this.r030 = r030;
-        this.txt = txt;
-        this.rate = rate;
-        this.cc = cc;
-        this.exchangeDate = exchangeDate;
-    }
-
+    @JsonProperty("exchangedate")
+    private String exchangeDate;
 
     public Integer getR030() {
         return r030;
@@ -52,11 +45,11 @@ public class CurrencyDTO {
         this.cc = cc;
     }
 
-    public Date getExchangeDate() {
+    public String getExchangeDate() {
         return exchangeDate;
     }
 
-    public void setExchangeDate(Date exchangeDate) {
+    public void setExchangeDate(String exchangeDate) {
         this.exchangeDate = exchangeDate;
     }
 }

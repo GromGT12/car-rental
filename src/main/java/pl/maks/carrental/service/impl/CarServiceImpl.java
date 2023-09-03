@@ -3,7 +3,7 @@ package pl.maks.carrental.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.maks.carrental.controller.productDTO.CarDTO;
-import pl.maks.carrental.convertor.CarConverter;
+import pl.maks.carrental.converter.CarConverter;
 import pl.maks.carrental.exception.CarRentalNotFoundException;
 import pl.maks.carrental.repository.CarRepository;
 import pl.maks.carrental.repository.model.Car;
