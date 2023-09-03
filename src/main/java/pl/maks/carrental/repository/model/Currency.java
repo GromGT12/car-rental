@@ -1,9 +1,9 @@
-package pl.maks.carrental.bankForeignExchange.service.model;
+package pl.maks.carrental.repository.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class ForeignExchange {
+public class Currency {
     private Integer r030;
     private String txt;
     private BigDecimal rate;

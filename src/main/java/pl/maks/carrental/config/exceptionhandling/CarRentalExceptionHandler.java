@@ -10,7 +10,6 @@ import pl.maks.carrental.exception.CarRentalValidationException;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-
 @ControllerAdvice
 public class CarRentalExceptionHandler {
 
@@ -18,12 +17,10 @@ public class CarRentalExceptionHandler {
     public ResponseEntity<String> handleNotFoundException(CarRentalNotFoundException exception) {
         return ResponseEntity.status(NOT_FOUND).body(exception.getMessage());
     }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
     }
-
     @ExceptionHandler(CarRentalValidationException.class)
     public ResponseEntity<String> handleValidationException(CarRentalValidationException e) {
         return ResponseEntity.status(BAD_REQUEST).body(e.toString());

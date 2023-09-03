@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class CarDTO {
-
     private Integer id;
     private String brand;
     private String model;

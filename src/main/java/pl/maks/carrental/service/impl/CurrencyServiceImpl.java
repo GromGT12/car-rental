@@ -1,39 +1,38 @@
-package pl.maks.carrental.bankForeignExchange.service.Impl;
+package pl.maks.carrental.service.impl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import pl.maks.carrental.bankForeignExchange.dto.ForeignExchangeDTO;
-import pl.maks.carrental.bankForeignExchange.service.ForeignExchangeService;
-import pl.maks.carrental.bankForeignExchange.service.model.ForeignExchange;
+import pl.maks.carrental.controller.productDTO.CurrencyDTO;
 import pl.maks.carrental.exception.CarRentalNotFoundException;
+import pl.maks.carrental.repository.model.Currency;
+import pl.maks.carrental.service.CurrencyService;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-
 @Service
-public class ForeignExchangeServiceImpl implements ForeignExchangeService {
+public class CurrencyServiceImpl implements CurrencyService {
     private static final String FOREIGN_EXCHANGE = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
 
     @Override
-    public ForeignExchangeDTO findForeignExchange(String currencyCode) {
+    public CurrencyDTO findForeignExchange(String currencyCode) {
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<ForeignExchange[]> response = restTemplate.getForEntity(
+        ResponseEntity<Currency[]> response = restTemplate.getForEntity(
                 FOREIGN_EXCHANGE,
-                ForeignExchange[].class
+                Currency[].class
         );
 
-        ForeignExchange[] resultArray = response.getBody();
+        Currency[] resultArray = response.getBody();
 
         if (resultArray != null && resultArray.length > 0) {
 
-            Optional<ForeignExchange> exchangeOptional = Arrays.stream(resultArray)
+            Optional<Currency> exchangeOptional = Arrays.stream(resultArray)
                     .filter(exchange -> currencyCode.equalsIgnoreCase(exchange.getCc()))
                     .findAny();
 
-            return exchangeOptional.map(exchange -> new ForeignExchangeDTO(
+            return exchangeOptional.map(exchange -> new CurrencyDTO(
                     exchange.getR030(),
                     exchange.getTxt(),
                     exchange.getRate(),

@@ -1,9 +1,9 @@
-package pl.maks.carrental.bankForeignExchange.dto;
+package pl.maks.carrental.controller.productDTO;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class ForeignExchangeDTO {
+public class CurrencyDTO {
 
     private Integer r030;
     private String txt;
@@ -11,7 +11,7 @@ public class ForeignExchangeDTO {
     private String cc;
     private Date exchangeDate;
 
-    public ForeignExchangeDTO(Integer r030, String txt, BigDecimal rate, String cc, Date exchangeDate) {
+    public CurrencyDTO(Integer r030, String txt, BigDecimal rate, String cc, Date exchangeDate) {
         this.r030 = r030;
         this.txt = txt;
         this.rate = rate;

@@ -20,7 +20,7 @@ public class ParkingServiceImp implements ParkingService {
     private final ParkingRepository parkingRepository;
     private final ParkingValidator parkingValidator;
     private final ParkingConverter parkingConverter;
-    private static final String PARKING_NOT_FOUND_MESSAGE = "Parking not found";
+    private static final String PARKING_NOT_FOUND_MESSAGE = "Parking not found ";
 
 
     public ParkingServiceImp(ParkingRepository parkingRepository, ParkingValidator parkingValidator, ParkingConverter parkingConverter) {

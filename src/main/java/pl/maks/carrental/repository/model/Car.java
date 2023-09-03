@@ -24,10 +24,6 @@ public class Car {
     @JoinColumn(name = "parking_id")
     private Parking parking;
 
-    public Car() {
-
-    }
-
     public Integer getId() {
         return id;
     }

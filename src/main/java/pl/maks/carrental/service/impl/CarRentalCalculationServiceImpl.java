@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class CarRentalCalculationServiceImplService implements RentalPriceCalculatorService {
+public class CarRentalCalculationServiceImpl implements RentalPriceCalculatorService {
 
     private static final BigDecimal BASE_DAILY_RATE = BigDecimal.valueOf(150.0);
     private static final BigDecimal ACCIDENT_COEFFICIENT_1 = BigDecimal.valueOf(1.0);
@@ -20,7 +20,7 @@ public class CarRentalCalculationServiceImplService implements RentalPriceCalcul
 
     private final ClientRepository clientRepository;
 
-    public CarRentalCalculationServiceImplService(ClientRepository clientRepository) {
+    public CarRentalCalculationServiceImpl(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
@@ -53,3 +53,4 @@ public class CarRentalCalculationServiceImplService implements RentalPriceCalcul
         }
     }
 }
+

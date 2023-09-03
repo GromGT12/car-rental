@@ -92,7 +92,6 @@ class CarLifecycleIT {
         assertThat(actualCar.getPricePerDay()).isEqualTo(anotherCar.getPricePerDay());
 
         //update car then
-        assert updatedCarBody != null;
         assertThat(updatedCarBody.getBrand()).isEqualTo(updatedCarBrand);
         assertThat(updatedCarBody.getModel()).isEqualTo(updatedCarModel);
         assertThat(updatedCarBody.getPricePerDay()).isEqualTo(updatedCarPricePerDay);

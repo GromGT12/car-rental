@@ -29,10 +29,10 @@ class CarRentalCalculationServiceTest {
         client.setAccidents(accidents);
         when(clientRepository.getReferenceById(clientId)).thenReturn(client);
 
-        CarRentalCalculationServiceImplService calculationService = new CarRentalCalculationServiceImplService(clientRepository);
+        CarRentalCalculationServiceImpl calculationService = new CarRentalCalculationServiceImpl(clientRepository);
 
         // when
-        BigDecimal rentalPrice = calculationService.calculateRentalPrice(clientId, carId, days);
+        String rentalPrice = String.valueOf(calculationService.calculateRentalPrice(clientId, carId, days));
 
         // then
         BigDecimal expectedPrice = BigDecimal.valueOf(150.0).multiply(BigDecimal.valueOf(days)).multiply(BigDecimal.valueOf(1.0));

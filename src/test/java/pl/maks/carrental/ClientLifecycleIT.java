@@ -3,7 +3,6 @@ package pl.maks.carrental;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -19,7 +18,6 @@ import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 
 @Testcontainers
 @SpringBootTest(classes = CarRentalApplication.class,
@@ -96,7 +94,6 @@ class ClientLifecycleIT {
         assertThat(actualClient.getAccidents()).isEqualTo(anotherClient.getAccidents());
 
         //update client then
-        assert updatedClientBody != null;
         assertThat(updatedClientBody.getFirstName()).isEqualTo(updatedClientFirstName);
         assertThat(updatedClientBody.getLastName()).isEqualTo(updatedClientLastName);
         assertThat(updatedClientBody.getDocumentNumber()).isEqualTo(updatedClientDocumentNumber);
