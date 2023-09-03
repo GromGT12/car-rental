@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class ClientDTO implements Serializable {
-
     private Integer id;
     private String firstName;
     private String lastName;
@@ -66,12 +65,6 @@ public class ClientDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ClientDTO{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", documentNumber='" + documentNumber + '\'' +
-                ", accidents=" + accidents +
-                '}';
+        return "ClientDTO{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", documentNumber='" + documentNumber + '\'' + ", accidents=" + accidents + '}';
     }
 }
