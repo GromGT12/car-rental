@@ -83,7 +83,7 @@ class ClientLifecycleIT {
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.GET, request, ClientDTO.class));
 
-        String expectedMessage = String.format("404 : \"Client not found%d\"", createdClientId);
+        String expectedMessage = String.format("404 : \"Client not found: %d\"", createdClientId);
 
         //create client then
         ClientDTO actualClient = actualClientForEntity.getBody();
@@ -100,7 +100,7 @@ class ClientLifecycleIT {
         assertThat(updatedClientBody.getAccidents()).isEqualTo(updatedClientAccident);
 
         //delete client then
-         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
+        assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
     }
 
     private ClientDTO anotherClient() {
