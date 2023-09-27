@@ -32,7 +32,7 @@ class CarRentalCalculationServiceTest {
         CarRentalCalculationServiceImpl calculationService = new CarRentalCalculationServiceImpl(clientRepository);
 
         // when
-        String rentalPrice = String.valueOf(calculationService.calculateRentalPrice(clientId, carId, days));
+        BigDecimal rentalPrice = calculationService.calculateRentalPrice(clientId, carId, days);
 
         // then
         BigDecimal expectedPrice = BigDecimal.valueOf(150.0).multiply(BigDecimal.valueOf(days)).multiply(BigDecimal.valueOf(1.0));
