@@ -5,11 +5,15 @@ import org.junit.jupiter.api.Test;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.exception.CarRentalValidationException;
 import pl.maks.carrental.repository.ClientRepository;
+import pl.maks.carrental.repository.model.Client;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ClientValidatorTest {
 
@@ -46,13 +50,13 @@ class ClientValidatorTest {
     void shouldThrow_whenLastLastNameIsInvalid() {
         //given
         ClientDTO invalidLastNameClient = invalidLastNameClient();
-        String expectedMessage = (String.format("%s can contain only digits: '%s'", "LastName", invalidLastNameClient.getLastName()));
+        String expectedMessage = (String.format("%s can contain only letters: '%s'", "lastName", invalidLastNameClient.getLastName()));
 
         //when
         CarRentalValidationException carRentalValidationException = assertThrows(CarRentalValidationException.class, () -> target.validateClient(invalidLastNameClient));
 
         //then
-        assertThat(carRentalValidationException.getViolations().contains(expectedMessage));
+        assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
 
     }
 
@@ -96,6 +100,55 @@ class ClientValidatorTest {
 
         //then
         assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
+    }
+
+    @Test
+    @DisplayName("Validation error should be thrown if the documentNumber is invalid")
+    void shouldThrow_whenDocumentsNumberIsInvalid() {
+        //given
+        ClientDTO invalidDocumentsNumberClient = blankDocumentsNumberClient();
+        String expectedMessage = String.format("invalid documentsNumber: '%s'", invalidDocumentsNumberClient.getDocumentNumber());
+
+        //when
+        CarRentalValidationException carRentalValidationException = assertThrows(CarRentalValidationException.class, () -> target.validateClient(invalidDocumentsNumberClient));
+
+        //then
+        assertThat(carRentalValidationException.getViolations()).contains(expectedMessage);
+    }
+
+
+    @Test
+    @DisplayName("Validation Error should be thrown when documentNumber is already used")
+    void shouldThrowValidationError_WhenDocumentNumber() {
+        //given
+        ClientDTO clientDocumentNumber = clientDocumentNumber();
+        clientDocumentNumber.setDocumentNumber("dxz875848382");
+        when(clientRepository.findAllByDocumentNumber("dxz875848382")).thenReturn(List.of(new Client()));
+
+        //when
+        CarRentalValidationException validationException = assertThrows(CarRentalValidationException.class, () -> target.validateClient(clientDocumentNumber));
+
+        //then
+        String expectedMessage = String.format("documentsNumber '%s' is already used in the system. Please choose a different one!", clientDocumentNumber.getDocumentNumber());
+        assertThat(validationException.getViolations()).contains(expectedMessage);
+    }
+
+    private ClientDTO clientDocumentNumber() {
+        ClientDTO dto = new ClientDTO();
+        dto.setAccidents(11);
+        dto.setDocumentNumber("invalid_documentNumber");
+        dto.setFirstName("TestFirstName");
+        dto.setLastName("TestLastName");
+        return dto;
+    }
+
+    private ClientDTO blankDocumentsNumberClient() {
+        ClientDTO dto = new ClientDTO();
+        dto.setAccidents(11);
+        dto.setDocumentNumber("");
+        dto.setFirstName("TestFirstName");
+        dto.setLastName("TestLastName");
+        return dto;
     }
 
     private ClientDTO emptyNameClient() {
@@ -148,7 +201,7 @@ class ClientValidatorTest {
         dto.setAccidents(11);
         dto.setDocumentNumber("dxz875848382");
         dto.setFirstName("TestFirstName");
-        dto.setLastName("");
+        dto.setLastName("TestLastName555");
         return dto;
     }
 }

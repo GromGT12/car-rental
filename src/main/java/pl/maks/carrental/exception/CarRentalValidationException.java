@@ -1,6 +1,5 @@
 package pl.maks.carrental.exception;
 
-
 import java.util.List;
 
 public class CarRentalValidationException extends RuntimeException {
@@ -16,11 +15,17 @@ public class CarRentalValidationException extends RuntimeException {
         return violations;
     }
 
+    private String violationsToString(List<String> violations) {
+        StringBuilder oneBigViolation = new StringBuilder("\nViolations:");
+        String bigString = String.join("\n", violations);
+        oneBigViolation.append(bigString);
+        return oneBigViolation.toString();
+    }
+
     @Override
     public String toString() {
-        return getMessage() + " ValidationException{" +
-                "violations=" + violations +
-                '}';
+        return getMessage() + violationsToString(violations);
     }
 }
+
 

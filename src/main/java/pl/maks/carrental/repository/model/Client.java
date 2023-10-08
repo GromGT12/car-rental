@@ -20,6 +20,10 @@ public class Client {
     public Client() {
     }
 
+    public Client(Integer id) {
+        this.id = id;
+    }
+
     public Client(String firstName, String lastName, String documentNumber, Integer accidents) {
         this.firstName = firstName;
         this.lastName = lastName;

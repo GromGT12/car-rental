@@ -3,7 +3,7 @@ package pl.maks.carrental.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.maks.carrental.controller.productDTO.ContractDTO;
-import pl.maks.carrental.convertor.ContractConverter;
+import pl.maks.carrental.converter.ContractConverter;
 import pl.maks.carrental.exception.CarRentalNotFoundException;
 import pl.maks.carrental.repository.ContractRepository;
 import pl.maks.carrental.repository.model.Contract;
@@ -20,6 +20,8 @@ public class ContractServiceImpl implements ContractService {
     private final ContractConverter contractConverter;
     private final ContractRepository contractRepository;
     private final ContractValidator contractValidator;
+    private static final String CONTRACT_NOT_FOUND_MESSAGE = "Contract not found";
+
 
     public ContractServiceImpl(ContractConverter contractConverter, ContractRepository contractRepository, ContractValidator contractValidator) {
         this.contractConverter = contractConverter;
@@ -35,7 +37,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public ContractDTO getById(Integer id) {
-        Contract contract = contractRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Contract not found" + id));
+        Contract contract = contractRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CONTRACT_NOT_FOUND_MESSAGE + id));
         return contractConverter.convertToDto(contract);
     }
 
@@ -51,7 +53,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public void deleteById(Integer id) {
-        Contract contract = contractRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Contract not found" + id));
+        Contract contract = contractRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(CONTRACT_NOT_FOUND_MESSAGE + id));
         contractRepository.delete(contract);
 
     }
@@ -59,7 +61,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public ContractDTO updateContract(Integer id, ContractDTO contractToUpdate) {
         contractValidator.validateContract(contractToUpdate);
-        Contract contract = contractRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException("Contract not found" + id));
+        contractRepository.findById(id).orElseThrow(() -> new CarRentalNotFoundException(CONTRACT_NOT_FOUND_MESSAGE + id));
         Contract entityToUpdate = contractConverter.convertToEntity(contractToUpdate);
         entityToUpdate.setId(id);
         Contract updateEntity = contractRepository.save(entityToUpdate);

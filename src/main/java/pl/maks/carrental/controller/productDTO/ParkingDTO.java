@@ -1,13 +1,10 @@
 package pl.maks.carrental.controller.productDTO;
 
-
 import java.util.Objects;
 
 public class ParkingDTO {
     private Integer id;
-
     private String name;
-
     private String phone;
 
     public Integer getId() {

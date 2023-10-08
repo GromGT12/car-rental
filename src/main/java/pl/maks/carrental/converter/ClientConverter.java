@@ -1,4 +1,4 @@
-package pl.maks.carrental.convertor;
+package pl.maks.carrental.converter;
 
 import org.springframework.stereotype.Component;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
@@ -6,7 +6,6 @@ import pl.maks.carrental.repository.model.Client;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ClientConverter {
@@ -27,7 +26,7 @@ public class ClientConverter {
     public List<ClientDTO> convertToDto(Collection<Client> source) {
         return source.stream()
                 .map(this::convertClientToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private ClientDTO convertClientToDto(Client source) {

@@ -16,18 +16,21 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private static final String ADMIN = "ADMIN";
+    private static final String CLIENT = "CLIENT";
+
     @Bean
     public InMemoryUserDetailsManager users() {
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         UserDetails user = users
                 .username("client")
                 .password("password")
-                .roles("CLIENT")
+                .roles(CLIENT)
                 .build();
         UserDetails admin = users
                 .username("admin")
-                .password("lupa")
-                .roles("ADMIN", "CLIENT")
+                .password("adminPassword")
+                .roles(ADMIN, CLIENT)
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
     }
@@ -37,12 +40,11 @@ public class SecurityConfig {
         return http
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.GET, "/cars/", "/parkings/").hasRole("CLIENT")
-                        .requestMatchers(HttpMethod.POST, "/clients/", "/cars/", "/parkings/", "/contracts/").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/clients/", "/contracts/").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/clients/").hasRole("ADMIN")
-                        .requestMatchers("/random-joke").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/cars/", "/parkings/").hasRole(CLIENT)
+                        .requestMatchers(HttpMethod.POST, "/clients/", "/cars/", "/parkings/", "/contracts/").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.PUT, "/clients/", "/contracts/").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, "/clients/").hasRole(ADMIN)
                         .anyRequest().authenticated())
                 .build();
     }

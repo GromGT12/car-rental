@@ -22,7 +22,7 @@ public class Car {
     private BigDecimal pricePerDay;
     @ManyToOne
     @JoinColumn(name = "parking_id")
-    private Parking parking;
+     private Parking parking;
 
     public Integer getId() {
         return id;
