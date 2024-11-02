@@ -15,7 +15,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class Security {
     private static final String ADMIN = "ADMIN";
     private static final String CLIENT = "CLIENT";
 
