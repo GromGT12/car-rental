@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  app:
+    image: your-app-image
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - kafka
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_KAFKA_CONSUMER_GROUP_ID: car-rental-group
+
+  db:
+    image: postgres:latest
+    container_name: car_rental_db
+    environment:
+      POSTGRES_USER: pingwit
+      POSTGRES_PASSWORD: pingwit_password
+      POSTGRES_DB: car_rental
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    environment:
+      KAFKA_ADVERTISED_LISTENER_NAME: INSIDE
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENER_NAME_INSIDE: INSIDE
+      KAFKA_LISTENER_NAME_EXTERIOR: EXTERIOR
+      KAFKA_LISTENER_PORT_EXTERIOR: 9094
+      KAFKA_LISTENER_NAME_INTERNAL: INTERNAL
+      KAFKA_LISTENER_PORT_INTERNAL: 9092
+      KAFKA_LISTENER_NAME: INSIDE
+      KAFKA_LISTENER_PORT: 9093
+      KAFKA_LISTENER_INSIDE: 9093
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_INTER_BROKER_PROTOCOL: INSIDE
+      KAFKA_LISTENER_INTER_BROKER_PORT: 9093
+    ports:
+      - "9093:9093"
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_ADMINSERVER_PORT: 2181
+    ports:
+      - "2181:2181"

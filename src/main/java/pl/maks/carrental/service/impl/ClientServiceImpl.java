@@ -43,10 +43,13 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public Integer createClient(ClientDTO clientToCreate) {
+        if (clientToCreate.getId() != null && clientRepository.existsById(clientToCreate.getId())) {
+            throw new IllegalArgumentException("Client with this ID already exists.");
+        }
         clientValidator.validateClient(clientToCreate);
         Client client = clientConverter.convertToEntity(clientToCreate);
-        Client saveClient = clientRepository.save(client);
-        return saveClient.getId();
+        Client savedClient = clientRepository.save(client);
+        return savedClient.getId();
     }
 
     @Override

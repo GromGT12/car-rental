@@ -1,8 +1,9 @@
 package pl.maks.carrental.controller;
 
-
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.maks.carrental.controller.productDTO.ClientDTO;
 import pl.maks.carrental.service.ClientService;
@@ -34,8 +35,13 @@ public class ClientController {
 
     @Tag(name = "Creating a new client", description = "In case the client is not created, the response will have a status of 404")
     @PostMapping
-    public Integer clientCreate(@RequestBody @Valid ClientDTO clientToCreate) {
-        return clientService.createClient(clientToCreate);
+    public ResponseEntity<?> clientCreate(@RequestBody @Valid ClientDTO clientToCreate) {
+        try {
+            Integer clientId = clientService.createClient(clientToCreate);
+            return ResponseEntity.status(HttpStatus.CREATED).body(clientId);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     @Tag(name = "Delete a client by ID", description = "In case the client is not deleted by ID, the response will have a status of 404")
